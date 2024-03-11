@@ -10,6 +10,7 @@ Before running this program, make sure you create the mountdir.
 
 # Step 1 Install Amazon C++ SDK and other environment
 compile the source code and install it. Follow this link: https://docs.aws.amazon.com/sdk-for-cpp/v1/developer-guide/setup-linux.html
+
 other environment, e.g., fuse, g++...
 
 # Step 2 Authorization
