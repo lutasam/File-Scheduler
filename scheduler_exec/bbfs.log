@@ -1,0 +1,1697 @@
+
+bb_init()
+    conn:
+    proto_major =  7
+    proto_minor =  34
+    async_read =  1
+    max_write =  131072
+    max_readahead =  131072
+    capable = 00000ffb
+    want = 00000010
+    max_background =  0
+    congestion_threshold =  0
+    context:
+    fuse = 32396970
+    uid =  0
+    gid =  0
+    pid =  0
+    private_data = 3226c110
+    logfile = 321ba470
+    rootdir = /home/vcm/File-Scheduler/rootdir
+    umask = 00000
+
+bb_getattr(path="/.git", statbuf=0x22d1fea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x2251ef50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/", statbuf=0x22d1fe70)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755652
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  51
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ac
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_access(path="/", mask=01)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+
+bb_opendir(path="/", fi=0x22d1fe90)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    opendir returned 0x0x7f8814001a00
+    fi:
+    flags = 0x 00018800
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007f8814001a00
+    lock_owner = 0x 0000000000000000
+
+bb_readdir(path="/", buf=0x14001980, filler=0x2582bac0, offset=0, fi=0x2251ee90)
+    readdir returned 0x0x7f8814001a30
+calling filler with name .
+calling filler with name ..
+calling filler with name local_file.txt
+calling filler with name local_file2.txt
+calling filler with name log.h
+calling filler with name photo.JPG
+calling filler with name test/bbfs.cpp
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7f8814001a00
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007f8814001a00
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/local_file.txt", statbuf=0x22d1fea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/local_file.txt", fpath = "/home/vcm/File-Scheduler/rootdir/local_file.txt"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755653
+    st_mode = 0 100664
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54a4
+    st_mtime = 0x 65ee54a4
+    st_ctime = 0x 65ee54a4
+
+bb_getattr(path="/local_file2.txt", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/local_file2.txt", fpath = "/home/vcm/File-Scheduler/rootdir/local_file2.txt"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755654
+    st_mode = 0 100664
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ab
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_getattr(path="/log.h", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/log.h", fpath = "/home/vcm/File-Scheduler/rootdir/log.h"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/photo.JPG", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/photo.JPG", fpath = "/home/vcm/File-Scheduler/rootdir/photo.JPG"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_releasedir(path="/", fi=0x2251ee90)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7f8814001a00
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007f8814001a00
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/.git", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x22d1ff50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_opendir(path="/", fi=0x2251ee90)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    opendir returned 0x0x7f881c105e80
+    fi:
+    flags = 0x 00018800
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007f881c105e80
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/", statbuf=0x23520e70)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755652
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  51
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ac
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_readdir(path="/", buf=0x1c0f7c30, filler=0x2582bac0, offset=0, fi=0x22d1fe90)
+    readdir returned 0x0x7f881c105eb0
+calling filler with name .
+calling filler with name ..
+calling filler with name local_file.txt
+calling filler with name local_file2.txt
+calling filler with name log.h
+calling filler with name photo.JPG
+calling filler with name test/bbfs.cpp
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7f881c105e80
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007f881c105e80
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/local_file.txt", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/local_file.txt", fpath = "/home/vcm/File-Scheduler/rootdir/local_file.txt"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755653
+    st_mode = 0 100664
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54a4
+    st_mtime = 0x 65ee54a4
+    st_ctime = 0x 65ee54a4
+
+bb_getattr(path="/local_file2.txt", statbuf=0x22d1fea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/local_file2.txt", fpath = "/home/vcm/File-Scheduler/rootdir/local_file2.txt"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755654
+    st_mode = 0 100664
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ab
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_getattr(path="/log.h", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/log.h", fpath = "/home/vcm/File-Scheduler/rootdir/log.h"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/photo.JPG", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/photo.JPG", fpath = "/home/vcm/File-Scheduler/rootdir/photo.JPG"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_releasedir(path="/", fi=0x2251ee90)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7f881c105e80
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007f881c105e80
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/.git", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x22d1ff50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/----------", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/----------", fpath = "/home/vcm/File-Scheduler/rootdir/----------"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/vcm", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/vcm", fpath = "/home/vcm/File-Scheduler/rootdir/vcm"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/-rw-rw-r--", statbuf=0x22d1fea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/-rw-rw-r--", fpath = "/home/vcm/File-Scheduler/rootdir/-rw-rw-r--"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/Dec", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/Dec", fpath = "/home/vcm/File-Scheduler/rootdir/Dec"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/Mar", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/Mar", fpath = "/home/vcm/File-Scheduler/rootdir/Mar"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/", statbuf=0x22d1fe70)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755652
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  51
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ac
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_getattr(path="/10", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/10", fpath = "/home/vcm/File-Scheduler/rootdir/10"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/.git", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x22d1ff50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/.git", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x23520f50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/.git", statbuf=0x22d1fea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x2251ef50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/.git", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x22d1ff50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/.git", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x23520f50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/.git", statbuf=0x22d1fea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x2251ef50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/.git", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x22d1ff50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/.git", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x23520f50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/----------", statbuf=0x22d1fea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/----------", fpath = "/home/vcm/File-Scheduler/rootdir/----------"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/vcm", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/vcm", fpath = "/home/vcm/File-Scheduler/rootdir/vcm"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/Dec", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/Dec", fpath = "/home/vcm/File-Scheduler/rootdir/Dec"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/Input", statbuf=0x22d1fea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/Input", fpath = "/home/vcm/File-Scheduler/rootdir/Input"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/", statbuf=0x2251ee70)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755652
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  51
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ac
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_getattr(path="/.git", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x22d1ff50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/", statbuf=0x2251ee70)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755652
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  51
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ac
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_getattr(path="/.git", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x22d1ff50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/.git", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x23520f50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_open(path"/.git", fi=0x22d1ff50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/", statbuf=0x2251ee70)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755652
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  51
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ac
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_open(path"/.git", fi=0x23520f50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_open(path"/.git", fi=0x22d1ff50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/.git", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x23520f50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/", statbuf=0x22d1fe70)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755652
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  51
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ac
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_getattr(path="/.git", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x23520f50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/.git", statbuf=0x22d1fea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x2251ef50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/", statbuf=0x23520e70)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755652
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  51
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ac
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_access(path="/", mask=01)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+
+bb_opendir(path="/", fi=0x2251ee90)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    opendir returned 0x0x7f881c105e80
+    fi:
+    flags = 0x 00018800
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007f881c105e80
+    lock_owner = 0x 0000000000000000
+
+bb_readdir(path="/", buf=0x1c0067f0, filler=0x2582bac0, offset=0, fi=0x23520e90)
+    readdir returned 0x0x7f881c105eb0
+calling filler with name .
+calling filler with name ..
+calling filler with name local_file.txt
+calling filler with name local_file2.txt
+calling filler with name log.h
+calling filler with name photo.JPG
+calling filler with name test/bbfs.cpp
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7f881c105e80
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007f881c105e80
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/local_file.txt", statbuf=0x22d1fea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/local_file.txt", fpath = "/home/vcm/File-Scheduler/rootdir/local_file.txt"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755653
+    st_mode = 0 100664
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54a4
+    st_mtime = 0x 65ee54a4
+    st_ctime = 0x 65ee54a4
+
+bb_getattr(path="/local_file2.txt", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/local_file2.txt", fpath = "/home/vcm/File-Scheduler/rootdir/local_file2.txt"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755654
+    st_mode = 0 100664
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ab
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_getattr(path="/log.h", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/log.h", fpath = "/home/vcm/File-Scheduler/rootdir/log.h"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/photo.JPG", statbuf=0x22d1fea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/photo.JPG", fpath = "/home/vcm/File-Scheduler/rootdir/photo.JPG"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_releasedir(path="/", fi=0x23520e90)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7f881c105e80
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007f881c105e80
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/.git", statbuf=0x22d1fea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x2251ef50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/.git", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x22d1ff50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/Input", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/Input", fpath = "/home/vcm/File-Scheduler/rootdir/Input"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/", statbuf=0x23520e70)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755652
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  51
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ac
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_getattr(path="/total", statbuf=0x22d1fea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/total", fpath = "/home/vcm/File-Scheduler/rootdir/total"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/", statbuf=0x2251ee70)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755652
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  51
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ac
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_getattr(path="/.git", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x22d1ff50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_opendir(path="/", fi=0x2251ee90)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    opendir returned 0x0x7f881c105e80
+    fi:
+    flags = 0x 00018800
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007f881c105e80
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/", statbuf=0x23520e70)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755652
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  51
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ac
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_readdir(path="/", buf=0x1c0e4ad0, filler=0x2582bac0, offset=0, fi=0x22d1fe90)
+    readdir returned 0x0x7f881c105eb0
+calling filler with name .
+calling filler with name ..
+calling filler with name local_file.txt
+calling filler with name local_file2.txt
+calling filler with name log.h
+calling filler with name photo.JPG
+calling filler with name test/bbfs.cpp
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7f881c105e80
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007f881c105e80
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/local_file.txt", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/local_file.txt", fpath = "/home/vcm/File-Scheduler/rootdir/local_file.txt"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755653
+    st_mode = 0 100664
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54a4
+    st_mtime = 0x 65ee54a4
+    st_ctime = 0x 65ee54a4
+
+bb_getattr(path="/local_file2.txt", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/local_file2.txt", fpath = "/home/vcm/File-Scheduler/rootdir/local_file2.txt"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755654
+    st_mode = 0 100664
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ab
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_getattr(path="/log.h", statbuf=0x22d1fea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/log.h", fpath = "/home/vcm/File-Scheduler/rootdir/log.h"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_getattr(path="/photo.JPG", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/photo.JPG", fpath = "/home/vcm/File-Scheduler/rootdir/photo.JPG"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_releasedir(path="/", fi=0x22d1fe90)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7f881c105e80
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007f881c105e80
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/", statbuf=0x2251ee70)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/", fpath = "/home/vcm/File-Scheduler/rootdir/"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  54755652
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  51
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 65ee54ac
+    st_mtime = 0x 65ee54ab
+    st_ctime = 0x 65ee54ab
+
+bb_getattr(path="/.git", statbuf=0x23520ea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x22d1ff50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/.git", statbuf=0x2251eea0)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    lstat returned -1
+    ERROR lstat: No such file or directory
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+
+bb_open(path"/.git", fi=0x23520f50)
+    bb_fullpath:  rootdir = "/home/vcm/File-Scheduler/rootdir", path = "/.git", fpath = "/home/vcm/File-Scheduler/rootdir/.git"
+    open returned -1
+    ERROR open: No such file or directory
+    ERROR open: No such file or directory
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x fffffffffffffffe
+    lock_owner = 0x 0000000000000000
+
+bb_destroy(userdata=0x3226c110)
