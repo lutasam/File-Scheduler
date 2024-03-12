@@ -5,6 +5,8 @@
 #include <memory>
 #include <map>
 #include <chrono>
+#include <unordered_map>
+#include <deque>
 
 #define SUCCESS 0
 #define FAILURE -1
@@ -29,6 +31,10 @@ public:
 
     FileMeta() : fileAccess("drwxrwxrwx"), owner(""), group(""), size(0), atime(0), name("") {}
     FileMeta(string _fileAccess, string _owner, string _group, uint _size, uint _atime, string _name) : fileAccess(_fileAccess), owner(_owner), group(_group), size(_size), atime(_atime), name(_name) {}
+    bool IsEmpty()
+    {
+        return name.empty();
+    }
 };
 
 #endif // COMMON_H
