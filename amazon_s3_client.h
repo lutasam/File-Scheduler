@@ -14,6 +14,7 @@
 #include <aws/s3/model/ListObjectsV2Request.h>
 #include <aws/s3/model/ListObjectsV2Result.h>
 #include <vector>
+#include "log.h"
 
 #include "common.h"
 
@@ -42,19 +43,19 @@ public:
     ~AmazonS3Client();
 
     /**
-     * file path should be the path from the mount folder to the current file
-     * i.e., the program are mounted on /home/vcm/x, and the file you want to upload is /home/vcm/x/a/file1.txt, the filepath should be /a/file1.txt
-     * p.s. the filepath should be compressed
-    */
+     * path should be the path from the mount folder to the current file (exclusive)
+     * i.e., the program are mounted on /home/vcm/x, and the file you want to upload is /home/vcm/x/a/file1.txt, the filepath should be /a/ (please add the last '/', my code will not check it)
+     * p.s. the path should be compressed, do not contain .. or .
+     */
 
     // currently no dir support, it will just list all files in the bucket
-    vector<FileMeta> GetAllFileMeta();
+    vector<FileMeta> GetAllFileMeta(string path);
     // upload the file to the cloud, 0 for success
-    int UploadFile(string filepath);
+    int UploadFile(string filename, string path);
     // download the file and store it in local, 0 for success
-    int DownloadFile(string filepath);
+    int DownloadFile(string filename, string path);
     // delete the file on cloud, 0 for success
-    int DeleteFile(string filepath);
+    int DeleteFile(string filename, string path);
     // get one file info from cloud
-    FileMeta GetOneFile(string filepath);
+    FileMeta GetOneFile(string filename, string path);
 };

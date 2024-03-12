@@ -42,10 +42,12 @@
 
 #include "log.h"
 #include "amazon_s3_client.h"
+#include "cache.h"
 
 // global variable
 std::unique_ptr<AmazonS3Client> client;
 unordered_map<string, FileMeta> cloudFiles;
+std::unique_ptr<LRUCache> globalCache;
 
 //  All the paths I see are relative to the root of the mounted
 //  filesystem.  In order to get to the underlying filesystem, I need to
@@ -660,8 +662,8 @@ int bb_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset
         }
     } while ((de = readdir(dp)) != NULL);
 
-    // // also need to read files from cloud
-    auto files = client->GetAllFileMeta();
+    // also need to read files from cloud
+    auto files = client->GetAllFileMeta(path);
     cloudFiles.clear();
     for (auto file : files)
     {
@@ -901,13 +903,13 @@ struct fuse_operations bb_oper = {
 
 void bb_usage()
 {
-    fprintf(stderr, "usage:  bbfs [FUSE and mount options] rootDir mountPoint\n");
+    fprintf(stderr, "usage:  scheduler rootDir mountPoint cacheCapacity\n");
     abort();
 }
 
 int main(int argc, char *argv[])
 {
-    client = std::unique_ptr<AmazonS3Client>(new AmazonS3Client());
+
     // auto files = client->GetAllFileMeta();
     // cout << "total 0" << endl;
     // for (auto file : files)
@@ -944,8 +946,12 @@ int main(int argc, char *argv[])
     // start with a hyphen (this will break if you actually have a
     // rootpoint or mountpoint whose name starts with a hyphen, but so
     // will a zillion other programs)
-    if ((argc < 3) || (argv[argc - 2][0] == '-') || (argv[argc - 1][0] == '-'))
+    if ((argc < 4) || (argv[argc - 2][0] == '-') || (argv[argc - 1][0] == '-'))
         bb_usage();
+
+    client = std::unique_ptr<AmazonS3Client>(new AmazonS3Client());
+
+    globalCache = std::unique_ptr<LRUCache>(new LRUCache(std::stoul(string(argv[argc - 1]))));
 
     bb_data = (struct bb_state *)malloc(sizeof(struct bb_state));
     if (bb_data == NULL)
@@ -956,10 +962,11 @@ int main(int argc, char *argv[])
 
     // Pull the rootdir out of the argument list and save it in my
     // internal data
-    bb_data->rootdir = realpath(argv[argc - 2], NULL);
-    argv[argc - 2] = argv[argc - 1];
+    bb_data->rootdir = realpath(argv[argc - 3], NULL);
+    argv[argc - 3] = argv[argc - 2];
+    argv[argc - 2] = NULL;
     argv[argc - 1] = NULL;
-    argc--;
+    argc -= 2;
 
     bb_data->logfile = log_open();
 

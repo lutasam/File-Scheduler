@@ -31,7 +31,7 @@ AmazonS3Client::~AmazonS3Client()
     delete s3Client;
 }
 
-vector<FileMeta> AmazonS3Client::GetAllFileMeta()
+vector<FileMeta> AmazonS3Client::GetAllFileMeta(string path)
 {
     Aws::S3::Model::ListObjectsRequest request;
     request.WithBucket(BUCKET_NAME);
@@ -39,13 +39,19 @@ vector<FileMeta> AmazonS3Client::GetAllFileMeta()
     auto outcome = s3Client->ListObjects(request);
     if (!outcome.IsSuccess())
     {
-        cerr << "[LOG]: Error: GetAllFileMeta: " << outcome.GetError().GetMessage() << endl;
+        // cerr << "[LOG]: Error: GetAllFileMeta: " << outcome.GetError().GetMessage() << endl;
+        log_msg(("[LOG]: Error: GetAllFileMeta: " + outcome.GetError().GetMessage() + "\n").c_str());
         return vector<FileMeta>();
     }
     vector<FileMeta> files;
     Aws::Vector<Aws::S3::Model::Object> objects = outcome.GetResult().GetContents();
     for (Aws::S3::Model::Object &object : objects)
     {
+        string currPath = "/" + object.GetKey();
+        if (currPath.substr(0, currPath.rfind('/') + 1) != path)
+        {
+            continue;
+        }
         files.push_back(FileMeta("--cloud---",
                                  object.GetOwner().GetDisplayName(),
                                  object.GetOwner().GetDisplayName(),
@@ -56,8 +62,14 @@ vector<FileMeta> AmazonS3Client::GetAllFileMeta()
     return files;
 }
 
-int AmazonS3Client::UploadFile(string filepath)
+int AmazonS3Client::UploadFile(string filename, string path)
 {
+    if (path[path.size() - 1] != '/')
+    {
+        path += '/';
+    }
+    string filepath = path + filename;
+
     Aws::S3::Model::PutObjectRequest request;
     request.SetBucket(BUCKET_NAME);
     request.SetKey(filepath);
@@ -69,7 +81,8 @@ int AmazonS3Client::UploadFile(string filepath)
 
     if (!*inputData)
     {
-        cerr << "[LOG]: Error unable to read file at " << filepath << endl;
+        // cerr << "[LOG]: Error unable to read file at " << filepath << endl;
+        log_msg(("[LOG]: Error unable to read file at " + filepath + "\n").c_str());
         return FAILURE;
     }
 
@@ -79,15 +92,24 @@ int AmazonS3Client::UploadFile(string filepath)
 
     if (!outcome.IsSuccess())
     {
-        cerr << "[LOG]: Error: UploadFile: " << outcome.GetError().GetMessage() << endl;
+        // cerr << "[LOG]: Error: UploadFile: " << outcome.GetError().GetMessage() << endl;
+        log_msg(("[LOG]: Error: UploadFile: " + outcome.GetError().GetMessage() + "\n").c_str());
+        return FAILURE;
     }
-    cerr << "[LOG]: Add file at '" << filepath << "' successfully." << endl;
+    // cerr << "[LOG]: Add file at '" << filepath << "' successfully." << endl;
+    log_msg(("[LOG]: Add file at '" + filepath + "' successfully." + "\n").c_str());
 
     return SUCCESS;
 }
 
-int AmazonS3Client::DownloadFile(string filepath)
+int AmazonS3Client::DownloadFile(string filename, string path)
 {
+    if (path[path.size() - 1] != '/')
+    {
+        path += '/';
+    }
+    string filepath = path + filename;
+
     Aws::S3::Model::GetObjectRequest getObjectRequest;
     getObjectRequest.SetBucket(BUCKET_NAME);
     getObjectRequest.SetKey(filepath);
@@ -96,7 +118,9 @@ int AmazonS3Client::DownloadFile(string filepath)
 
     if (!outcome.IsSuccess())
     {
-        cerr << "[LOG]: Failed to download file: " << outcome.GetError().GetExceptionName() << " - " << outcome.GetError().GetMessage() << endl;
+        // cerr << "[LOG]: Failed to download file: " << outcome.GetError().GetExceptionName() << " - " << outcome.GetError().GetMessage() << endl;
+        log_msg(("[LOG]: Failed to download file: " + outcome.GetError().GetExceptionName() + " - " + outcome.GetError().GetMessage() + "\n").c_str());
+        return FAILURE;
     }
 
     const Aws::S3::Model::GetObjectResult &result = outcome.GetResult();
@@ -107,13 +131,20 @@ int AmazonS3Client::DownloadFile(string filepath)
     outputFile << fileStream.rdbuf();
     outputFile.close();
 
-    cerr << "[LOG]: File at '" + filepath + "' downloaded successfully" << endl;
+    // cerr << "[LOG]: File at '" << filepath << "' downloaded successfully" << endl;
+    log_msg(("[LOG]: File at '" + filepath + "' downloaded successfully" + "\n").c_str());
 
     return SUCCESS;
 }
 
-int AmazonS3Client::DeleteFile(string filepath)
+int AmazonS3Client::DeleteFile(string filename, string path)
 {
+    if (path[path.size() - 1] != '/')
+    {
+        path += '/';
+    }
+    string filepath = path + filename;
+
     Aws::S3::Model::DeleteObjectRequest deleteObjectRequest;
     deleteObjectRequest.SetBucket(BUCKET_NAME);
     deleteObjectRequest.SetKey(filepath);
@@ -122,15 +153,23 @@ int AmazonS3Client::DeleteFile(string filepath)
 
     if (!outcome.IsSuccess())
     {
-        cerr << "[LOG]: Failed to delete file: " << outcome.GetError().GetExceptionName() << " - " << outcome.GetError().GetMessage() << endl;
+        // cerr << "[LOG]: Failed to delete file: " << outcome.GetError().GetExceptionName() << " - " << outcome.GetError().GetMessage() << endl;
+        log_msg(("[LOG]: Failed to delete file: " + outcome.GetError().GetExceptionName() + " - " + outcome.GetError().GetMessage() + "\n").c_str());
         return FAILURE;
     }
-    cerr << "[LOG]: File at '" + filepath + "' deleteed successfully" << endl;
+    // cerr << "[LOG]: File at '" << filepath << "' deleteed successfully" << endl;
+    log_msg(("[LOG]: File at '" + filepath + "' deleteed successfully\n").c_str());
     return SUCCESS;
 }
 
-FileMeta AmazonS3Client::GetOneFile(string filepath)
+FileMeta AmazonS3Client::GetOneFile(string filename, string path)
 {
+    if (path[path.size() - 1] != '/')
+    {
+        path += '/';
+    }
+    string filepath = path + filename;
+
     Aws::S3::Model::ListObjectsV2Request listObjectsRequest;
     listObjectsRequest.WithBucket(BUCKET_NAME).WithPrefix(filepath).WithMaxKeys(1);
 
@@ -138,14 +177,16 @@ FileMeta AmazonS3Client::GetOneFile(string filepath)
 
     if (outcome.IsSuccess())
     {
-        std::cout << "[LOG]: Error: " << outcome.GetError().GetMessage() << std::endl;
+        // cerr << "[LOG]: Error: " << outcome.GetError().GetMessage() << endl;
+        log_msg(("[LOG]: Error: " + outcome.GetError().GetMessage() + "\n").c_str());
     }
 
     const Aws::Vector<Aws::S3::Model::Object> &objects = outcome.GetResult().GetContents();
 
     if (objects.empty())
     {
-        std::cout << "[LOG]: Object not found." << std::endl;
+        // cerr << "[LOG]: Object not found." << endl;
+        log_msg("[LOG]: Object not found.\n");
     }
 
     const Aws::S3::Model::Object &object = objects.front();

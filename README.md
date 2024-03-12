@@ -21,5 +21,5 @@ put auth file into ~/.aws. Follow this link: https://docs.aws.amazon.com/sdkref/
 cd scheduler_exec
 cmake
 make
-./scheduler ../rootdir ../mount
+./scheduler ../rootdir ../mount 10
 ```
