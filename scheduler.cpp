@@ -22,7 +22,6 @@
   bbfs.log, in the directory from which you run bbfs.
 */
 #include "params.h"
-
 #include <ctype.h>
 #include <dirent.h>
 #include <errno.h>
@@ -43,6 +42,7 @@
 #include "log.h"
 #include "amazon_s3_client.h"
 #include "cache.h"
+#include "common.h"
 
 // global variable
 std::unique_ptr<AmazonS3Client> client;
@@ -91,19 +91,19 @@ int bb_getattr(const char *path, struct stat *statbuf)
     {
         auto file = cloudFiles[path];
         // auto file = client->GetOneFile(path);
-        statbuf->st_dev = 0;                                      // 文件的设备编号
-        statbuf->st_ino = 0;                                      // 文件的 inode 号
-        statbuf->st_mode = S_IFREG | S_IRWXU | S_IRWXG | S_IRWXO; // 文件类型和权限（这里设置为普通文件）
-        statbuf->st_nlink = 1;                                    // 文件的硬链接数
-        statbuf->st_uid = getuid();                               // 文件的所有者用户 ID
-        statbuf->st_gid = getgid();                               // 文件的所有者组 ID
-        statbuf->st_rdev = 0;                                     // 如果文件是特殊文件，则为其设备编号
-        statbuf->st_size = file.size;                             // 文件的大小（字节数）
-        statbuf->st_blksize = 4096;                               // 文件系统 I/O 缓冲区的大小
-        statbuf->st_blocks = 0;                                   // 分配给文件的块数
-        statbuf->st_atime = file.atime;                           // 最后一次访问的时间戳
-        statbuf->st_mtime = file.atime;                           // 最后一次修改的时间戳
-        statbuf->st_ctime = file.atime;                           // 最后一次状态更改的时间戳
+        statbuf->st_dev = 0;                // Device ID of the file
+        statbuf->st_ino = 0;                // Inode number of the file
+        statbuf->st_mode = file.fileAccess; // File type and permissions (set to regular file here)
+        statbuf->st_nlink = 1;              // Number of hard links to the file
+        statbuf->st_uid = getuid();         // Owner user ID of the file
+        statbuf->st_gid = getgid();         // Owner group ID of the file
+        statbuf->st_rdev = 0;               // Device ID if the file is a special file
+        statbuf->st_size = file.size;       // Size of the file in bytes
+        statbuf->st_blksize = 4096;         // Size of the file system I/O buffer
+        statbuf->st_blocks = 0;             // Number of blocks allocated to the file
+        statbuf->st_atime = file.atime;     // Timestamp of the last access
+        statbuf->st_mtime = file.atime;     // Timestamp of the last modification
+        statbuf->st_ctime = file.atime;     // Timestamp of the last status change
     }
 
     log_stat(statbuf);
@@ -326,6 +326,19 @@ int bb_open(const char *path, struct fuse_file_info *fi)
     log_msg("\nbb_open(path\"%s\", fi=0x%08x)\n",
             path, fi);
     bb_fullpath(fpath, path);
+
+    string filename = getFileName(path);
+    string filepath = getFilePath(path);
+
+    if (cloudFiles.find(path) != cloudFiles.end())
+    {
+        int res = client->DownloadFile(filename, filepath, fpath);
+        if (res != SUCCESS)
+        {
+            log_msg("[LOG]: Download file fails.file: %s\n", path);
+        }
+        client->DeleteFile(filename, filepath);
+    }
 
     // if the open call succeeds, my retstat is the file descriptor,
     // else it's -errno.  I'm making sure that in that case the saved
@@ -667,7 +680,7 @@ int bb_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset
     cloudFiles.clear();
     for (auto file : files)
     {
-        cloudFiles[file.name] = file;
+        cloudFiles[file.relativePath] = file;
         log_msg("calling filler with name %s\n", file.name.c_str());
         filler(buf, file.name.c_str(), NULL, 0);
     }
@@ -909,16 +922,6 @@ void bb_usage()
 
 int main(int argc, char *argv[])
 {
-
-    // auto files = client->GetAllFileMeta();
-    // cout << "total 0" << endl;
-    // for (auto file : files)
-    // {
-    //     std::cout << file.fileAccess << " " << file.owner << " " << file.group << " " << file.size << " " << file.atime << " " << file.name << endl;
-    // }
-    // client.UploadFile("/test/bbfs.cpp");
-    // client.DownloadFile("/log.h");
-    // client->DeleteFile("/log");
 
     int fuse_stat;
     struct bb_state *bb_data;

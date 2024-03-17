@@ -1,4 +1,25 @@
 #include "amazon_s3_client.h"
+#include <sys/stat.h>
+
+string getFileName(string path)
+{
+    if (path[path.size() - 1] == '/')
+    {
+        path = path.substr(0, path.size() - 1);
+    }
+    size_t idx = path.rfind('/');
+    return path.substr(idx + 1);
+}
+
+string getFilePath(string path)
+{
+    if (path[path.size() - 1] == '/')
+    {
+        return path;
+    }
+    size_t idx = path.rfind('/');
+    return path.substr(0, idx);
+}
 
 AmazonS3Client::AmazonS3Client()
 {
@@ -33,6 +54,10 @@ AmazonS3Client::~AmazonS3Client()
 
 vector<FileMeta> AmazonS3Client::GetAllFileMeta(string path)
 {
+    if (path[path.size() - 1] != '/')
+    {
+        path += '/';
+    }
     Aws::S3::Model::ListObjectsRequest request;
     request.WithBucket(BUCKET_NAME);
 
@@ -45,6 +70,7 @@ vector<FileMeta> AmazonS3Client::GetAllFileMeta(string path)
     }
     vector<FileMeta> files;
     Aws::Vector<Aws::S3::Model::Object> objects = outcome.GetResult().GetContents();
+    set<string> dirNames;
     for (Aws::S3::Model::Object &object : objects)
     {
         string currPath = "/" + object.GetKey();
@@ -52,17 +78,40 @@ vector<FileMeta> AmazonS3Client::GetAllFileMeta(string path)
         {
             continue;
         }
-        files.push_back(FileMeta("--cloud---",
-                                 object.GetOwner().GetDisplayName(),
-                                 object.GetOwner().GetDisplayName(),
-                                 object.GetSize(),
-                                 object.GetLastModified().SecondsWithMSPrecision(),
-                                 object.GetKey()));
+        else
+        {
+            // string afterPath = path.substr(currPath.size());
+            // file
+            // if (afterPath.find('/') == string::npos)
+            //{
+            files.push_back(FileMeta((S_IFREG | S_IRWXU | S_IRWXG | S_IRWXO),
+                                     object.GetOwner().GetDisplayName(),
+                                     object.GetOwner().GetDisplayName(),
+                                     object.GetSize(),
+                                     object.GetLastModified().SecondsWithMSPrecision(),
+                                     getFileName(currPath),
+                                     currPath,
+                                     ""));
+            //}
+            // else // dir
+            // {
+            //     string dirName = path.substr(0, afterPath.find('/'));
+            //     dirNames.insert(dirName);
+            //     files.push_back(FileMeta((S_IFDIR | S_IRWXU | S_IRWXG | S_IRWXO),
+            //                              object.GetOwner().GetDisplayName(),
+            //                              object.GetOwner().GetDisplayName(),
+            //                              object.GetSize(),
+            //                              object.GetLastModified().SecondsWithMSPrecision(),
+            //                              dirName,
+            //                              path + dirName,
+            //                              ""));
+            // }
+        }
     }
     return files;
 }
 
-int AmazonS3Client::UploadFile(string filename, string path)
+int AmazonS3Client::UploadFile(string filename, string path, string fpath)
 {
     if (path[path.size() - 1] != '/')
     {
@@ -76,7 +125,7 @@ int AmazonS3Client::UploadFile(string filename, string path)
 
     std::shared_ptr<Aws::IOStream> inputData =
         Aws::MakeShared<Aws::FStream>(filepath.c_str(),
-                                      (MOUNT_DIR + filepath).c_str(),
+                                      fpath.c_str(),
                                       std::ios_base::in | std::ios_base::binary);
 
     if (!*inputData)
@@ -102,7 +151,7 @@ int AmazonS3Client::UploadFile(string filename, string path)
     return SUCCESS;
 }
 
-int AmazonS3Client::DownloadFile(string filename, string path)
+int AmazonS3Client::DownloadFile(string filename, string path, string fpath)
 {
     if (path[path.size() - 1] != '/')
     {
@@ -127,7 +176,7 @@ int AmazonS3Client::DownloadFile(string filename, string path)
 
     Aws::IOStream &fileStream = result.GetBody();
 
-    ofstream outputFile(MOUNT_DIR + filepath, std::ios::binary);
+    ofstream outputFile(fpath, std::ios::binary);
     outputFile << fileStream.rdbuf();
     outputFile.close();
 
@@ -191,10 +240,12 @@ FileMeta AmazonS3Client::GetOneFile(string filename, string path)
 
     const Aws::S3::Model::Object &object = objects.front();
 
-    return FileMeta("--cloud---",
+    return FileMeta((S_IFREG | S_IRWXU | S_IRWXG | S_IRWXO),
                     object.GetOwner().GetDisplayName(),
                     object.GetOwner().GetDisplayName(),
                     object.GetSize(),
                     object.GetLastModified().CurrentTimeMillis(),
-                    object.GetKey());
+                    filename,
+                    filepath,
+                    "");
 }
