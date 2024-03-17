@@ -74,38 +74,45 @@ vector<FileMeta> AmazonS3Client::GetAllFileMeta(string path)
     for (Aws::S3::Model::Object &object : objects)
     {
         string currPath = "/" + object.GetKey();
-        if (currPath.substr(0, currPath.rfind('/') + 1) != path)
+        log_msg(("[LOG]: " + currPath + "\n").c_str());
+        if (currPath.substr(0, path.size()) != path)
         {
             continue;
         }
         else
         {
-            // string afterPath = path.substr(currPath.size());
+            string afterPath = currPath.substr(path.size());
+            // log_msg(("[LOG]: afterpath: " + afterPath + "\n").c_str());
             // file
-            // if (afterPath.find('/') == string::npos)
-            //{
-            files.push_back(FileMeta((S_IFREG | S_IRWXU | S_IRWXG | S_IRWXO),
-                                     object.GetOwner().GetDisplayName(),
-                                     object.GetOwner().GetDisplayName(),
-                                     object.GetSize(),
-                                     object.GetLastModified().SecondsWithMSPrecision(),
-                                     getFileName(currPath),
-                                     currPath,
-                                     ""));
-            //}
-            // else // dir
-            // {
-            //     string dirName = path.substr(0, afterPath.find('/'));
-            //     dirNames.insert(dirName);
-            //     files.push_back(FileMeta((S_IFDIR | S_IRWXU | S_IRWXG | S_IRWXO),
-            //                              object.GetOwner().GetDisplayName(),
-            //                              object.GetOwner().GetDisplayName(),
-            //                              object.GetSize(),
-            //                              object.GetLastModified().SecondsWithMSPrecision(),
-            //                              dirName,
-            //                              path + dirName,
-            //                              ""));
-            // }
+            if (afterPath.find('/') == string::npos)
+            {
+                files.push_back(FileMeta((S_IFREG | S_IRWXU | S_IRWXG | S_IRWXO),
+                                         object.GetOwner().GetDisplayName(),
+                                         object.GetOwner().GetDisplayName(),
+                                         object.GetSize(),
+                                         object.GetLastModified().SecondsWithMSPrecision(),
+                                         getFileName(currPath),
+                                         currPath,
+                                         ""));
+            }
+            else // dir
+            {
+                string dirName = afterPath.substr(0, afterPath.find('/'));
+                // log_msg(("[LOG]: dirname: " + dirName + "\n").c_str());
+                if (dirNames.find(dirName) != dirNames.end())
+                {
+                    continue;
+                }
+                dirNames.insert(dirName);
+                files.push_back(FileMeta((S_IFDIR | S_IRWXU | S_IRWXG | S_IRWXO),
+                                         object.GetOwner().GetDisplayName(),
+                                         object.GetOwner().GetDisplayName(),
+                                         object.GetSize(),
+                                         object.GetLastModified().SecondsWithMSPrecision(),
+                                         dirName,
+                                         path + dirName,
+                                         ""));
+            }
         }
     }
     return files;

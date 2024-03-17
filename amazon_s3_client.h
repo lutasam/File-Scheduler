@@ -40,7 +40,7 @@ public:
      * fpath shoule be the real path of the file, i.e. rootdir/a.txt
      */
 
-    // currently no dir support, it will just list all files in the bucket
+    // get files and dirs in current path
     vector<FileMeta> GetAllFileMeta(string path);
     // upload the file to the cloud, 0 for success
     int UploadFile(string filename, string path, string fpath);

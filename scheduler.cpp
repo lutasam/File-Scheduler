@@ -681,7 +681,7 @@ int bb_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset
     for (auto file : files)
     {
         cloudFiles[file.relativePath] = file;
-        log_msg("calling filler with name %s\n", file.name.c_str());
+        log_msg("calling filler with name %s\n", file.name);
         filler(buf, file.name.c_str(), NULL, 0);
     }
 
