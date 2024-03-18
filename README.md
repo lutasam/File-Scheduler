@@ -23,3 +23,20 @@ cmake
 make
 ./scheduler ../rootdir ../mount 10
 ```
+
+
+1. number of file -> total size of file
+
+2. syn problem write rootdir locking
+
+3. close or time limit x nerver commit changes
+maybe just give a warning
+
+4. specific circum
+
+5. cloud request and response time /  o/c time
+
+6. benchmarks simulate i/o pattern
+
+7. lfu freq problem further access
+non-cpu cache algorithm

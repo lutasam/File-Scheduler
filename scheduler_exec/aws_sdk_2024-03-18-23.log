@@ -1,0 +1,132 @@
+[INFO] 2024-03-18 23:07:18.677 Aws_Init_Cleanup [140493259846720] Initiate AWS SDK for C++ with Version:1.11.282
+[DEBUG] 2024-03-18 23:07:18.677 FileSystemUtils [140493259846720] Environment value for variable HOME is /home/vcm
+[DEBUG] 2024-03-18 23:07:18.678 FileSystemUtils [140493259846720] Home directory is missing the final / appending one to normalize
+[DEBUG] 2024-03-18 23:07:18.678 FileSystemUtils [140493259846720] Final Home Directory is /home/vcm/
+[INFO] 2024-03-18 23:07:18.678 Aws::Config::AWSConfigFileProfileConfigLoader [140493259846720] Initializing config loader against fileName /home/vcm/.aws/credentials and using profilePrefix = 0
+[DEBUG] 2024-03-18 23:07:18.678 FileSystemUtils [140493259846720] Environment value for variable HOME is /home/vcm
+[DEBUG] 2024-03-18 23:07:18.678 FileSystemUtils [140493259846720] Home directory is missing the final / appending one to normalize
+[DEBUG] 2024-03-18 23:07:18.678 FileSystemUtils [140493259846720] Final Home Directory is /home/vcm/
+[INFO] 2024-03-18 23:07:18.678 Aws::Config::AWSConfigFileProfileConfigLoader [140493259846720] Initializing config loader against fileName /home/vcm/.aws/config and using profilePrefix = 1
+[DEBUG] 2024-03-18 23:07:18.678 FileSystemUtils [140493259846720] Environment value for variable HOME is /home/vcm
+[DEBUG] 2024-03-18 23:07:18.678 FileSystemUtils [140493259846720] Home directory is missing the final / appending one to normalize
+[DEBUG] 2024-03-18 23:07:18.678 FileSystemUtils [140493259846720] Final Home Directory is /home/vcm/
+[INFO] 2024-03-18 23:07:18.678 Aws::Config::ConfigFileProfileFSM [140493259846720] Unknown property: aws_access_key_id in the profile: default
+[INFO] 2024-03-18 23:07:18.678 Aws::Config::ConfigFileProfileFSM [140493259846720] Unknown property: aws_secret_access_key in the profile: default
+[DEBUG] 2024-03-18 23:07:18.678 Aws::Config::ConfigFileProfileFSM [140493259846720] found access key AKIAXYKJVWUMV5VJDJWU
+[INFO] 2024-03-18 23:07:18.678 Aws::Config::AWSProfileConfigLoaderBase [140493259846720] Successfully reloaded configuration.
+[DEBUG] 2024-03-18 23:07:18.678 FileSystemUtils [140493259846720] Environment value for variable HOME is /home/vcm
+[DEBUG] 2024-03-18 23:07:18.678 FileSystemUtils [140493259846720] Home directory is missing the final / appending one to normalize
+[DEBUG] 2024-03-18 23:07:18.678 FileSystemUtils [140493259846720] Final Home Directory is /home/vcm/
+[INFO] 2024-03-18 23:07:18.678 Aws::Config::AWSConfigFileProfileConfigLoader [140493259846720] Unable to open config file /home/vcm/.aws/config for reading.
+[INFO] 2024-03-18 23:07:18.678 Aws::Config::AWSProfileConfigLoaderBase [140493259846720] Failed to reload configuration.
+[INFO] 2024-03-18 23:07:18.678 event-loop [140493259846720] id=0x55db79a058f0: Initializing edge-triggered epoll
+[INFO] 2024-03-18 23:07:18.678 event-loop [140493259846720] id=0x55db79a058f0: Using eventfd for cross-thread notifications.
+[INFO] 2024-03-18 23:07:18.678 event-loop [140493259846720] id=0x55db79a058f0: Starting event-loop thread.
+[INFO] 2024-03-18 23:07:18.678 event-loop [140493259846720] id=0x55db7997d070: Initializing edge-triggered epoll
+[INFO] 2024-03-18 23:07:18.678 event-loop [140493259846720] id=0x55db7997d070: Using eventfd for cross-thread notifications.
+[INFO] 2024-03-18 23:07:18.678 event-loop [140493259846720] id=0x55db7997d070: Starting event-loop thread.
+[INFO] 2024-03-18 23:07:18.678 dns [140493259846720] id=0x55db79a09c00: Initializing default host resolver with 8 max host entries.
+[INFO] 2024-03-18 23:07:18.678 event-loop [140493251384896] id=0x55db79a058f0: main loop started
+[INFO] 2024-03-18 23:07:18.678 event-loop [140493251384896] id=0x55db79a058f0: default timeout 100000, and max events to process per tick 100
+[INFO] 2024-03-18 23:07:18.678 event-loop [140493242992192] id=0x55db7997d070: main loop started
+[INFO] 2024-03-18 23:07:18.678 event-loop [140493242992192] id=0x55db7997d070: default timeout 100000, and max events to process per tick 100
+[INFO] 2024-03-18 23:07:18.678 channel-bootstrap [140493259846720] id=0x55db79a09f70: Initializing client bootstrap with event-loop group 0x55db79a0a7a0
+[DEBUG] 2024-03-18 23:07:18.717 HttpClientFactory [140493259846720] Initializing Http Static State
+[DEBUG] 2024-03-18 23:07:18.717 HttpClientFactory [140493259846720] Initializing Curl Http Client
+[INFO] 2024-03-18 23:07:18.717 CurlHttpClient [140493259846720] Initializing Curl library with version: 7.81.0, ssl version: OpenSSL/3.0.2
+[INFO] 2024-03-18 23:07:18.717 EC2MetadataClient [140493259846720] Using IMDS endpoint: http://169.254.169.254
+[DEBUG] 2024-03-18 23:07:18.718 ClientConfiguration [140493259846720] Request Compression enabled
+[DEBUG] 2024-03-18 23:07:18.718 ClientConfiguration [140493259846720] ClientConfiguration will use MinReqCompression: 10240
+[DEBUG] 2024-03-18 23:07:18.718 ClientConfiguration [140493259846720] ClientConfiguration will use SDK Auto Resolved profile: [default] if not specified by users.
+[INFO] 2024-03-18 23:07:18.718 ClientConfiguration [140493259846720] Retry Strategy will use the default max attempts.
+[INFO] 2024-03-18 23:07:18.718 EC2MetadataClient [140493259846720] Creating AWSHttpResourceClient with max connections 2 and scheme http
+[INFO] 2024-03-18 23:07:18.718 CurlHandleContainer [140493259846720] Initializing CurlHandleContainer with size 2
+[DEBUG] 2024-03-18 23:07:18.718 ClientConfiguration [140493259846720] Request Compression enabled
+[DEBUG] 2024-03-18 23:07:18.718 ClientConfiguration [140493259846720] ClientConfiguration will use MinReqCompression: 10240
+[DEBUG] 2024-03-18 23:07:18.718 ClientConfiguration [140493259846720] ClientConfiguration will use SDK Auto Resolved profile: [default] if not specified by users.
+[INFO] 2024-03-18 23:07:18.718 ClientConfiguration [140493259846720] Retry Strategy will use the default max attempts.
+[DEBUG] 2024-03-18 23:07:18.719 CurlHandleContainer [140493259846720] Attempting to acquire curl connection.
+[DEBUG] 2024-03-18 23:07:18.719 CurlHandleContainer [140493259846720] No current connections available in pool. Attempting to create new connections.
+[DEBUG] 2024-03-18 23:07:18.719 CurlHandleContainer [140493259846720] attempting to grow pool size by 2
+[INFO] 2024-03-18 23:07:18.719 CurlHandleContainer [140493259846720] Pool grown by 2
+[DEBUG] 2024-03-18 23:07:18.719 CurlHandleContainer [140493259846720] Connection has been released. Continuing.
+[DEBUG] 2024-03-18 23:07:18.719 CurlHandleContainer [140493259846720] Returning connection handle 0x55db79aff780
+[DEBUG] 2024-03-18 23:07:18.719 CurlHttpClient [140493259846720] Obtained connection handle 0x55db79aff780
+[DEBUG] 2024-03-18 23:07:18.719 CURL [140493259846720] (Text)   Trying 169.254.169.254:80...
+
+[DEBUG] 2024-03-18 23:07:19.720 CURL [140493259846720] (Text) After 1000ms connect time, move on!
+
+[DEBUG] 2024-03-18 23:07:19.720 CURL [140493259846720] (Text) connect to 169.254.169.254 port 80 failed: Connection timed out
+
+[DEBUG] 2024-03-18 23:07:19.720 CURL [140493259846720] (Text) Connection timeout after 1001 ms
+
+[DEBUG] 2024-03-18 23:07:19.720 CURL [140493259846720] (Text) Closing connection 0
+
+[ERROR] 2024-03-18 23:07:19.720 CurlHttpClient [140493259846720] Curl returned error code 28 - Timeout was reached
+[DEBUG] 2024-03-18 23:07:19.721 CurlHandleContainer [140493259846720] Destroy curl handle: 0x55db79aff780
+[DEBUG] 2024-03-18 23:07:19.721 CurlHandleContainer [140493259846720] Created replacement handle and released to pool: 0x55db79b01040
+[ERROR] 2024-03-18 23:07:19.721 EC2MetadataClient [140493259846720] Http request to retrieve credentials failed
+[WARN] 2024-03-18 23:07:19.721 EC2MetadataClient [140493259846720] Request failed, now waiting 0 ms before attempting again.
+[DEBUG] 2024-03-18 23:07:19.721 CurlHandleContainer [140493259846720] Attempting to acquire curl connection.
+[DEBUG] 2024-03-18 23:07:19.721 CurlHandleContainer [140493259846720] Connection has been released. Continuing.
+[DEBUG] 2024-03-18 23:07:19.721 CurlHandleContainer [140493259846720] Returning connection handle 0x55db79b01040
+[DEBUG] 2024-03-18 23:07:19.721 CurlHttpClient [140493259846720] Obtained connection handle 0x55db79b01040
+[DEBUG] 2024-03-18 23:07:19.722 CURL [140493259846720] (Text)   Trying 169.254.169.254:80...
+
+[DEBUG] 2024-03-18 23:07:20.723 CURL [140493259846720] (Text) After 1000ms connect time, move on!
+
+[DEBUG] 2024-03-18 23:07:20.723 CURL [140493259846720] (Text) connect to 169.254.169.254 port 80 failed: Connection timed out
+
+[DEBUG] 2024-03-18 23:07:20.723 CURL [140493259846720] (Text) Connection timeout after 1001 ms
+
+[DEBUG] 2024-03-18 23:07:20.723 CURL [140493259846720] (Text) Closing connection 0
+
+[ERROR] 2024-03-18 23:07:20.723 CurlHttpClient [140493259846720] Curl returned error code 28 - Timeout was reached
+[DEBUG] 2024-03-18 23:07:20.723 CurlHandleContainer [140493259846720] Destroy curl handle: 0x55db79b01040
+[DEBUG] 2024-03-18 23:07:20.723 CurlHandleContainer [140493259846720] Created replacement handle and released to pool: 0x55db79b01040
+[ERROR] 2024-03-18 23:07:20.723 EC2MetadataClient [140493259846720] Http request to retrieve credentials failed
+[ERROR] 2024-03-18 23:07:20.724 EC2MetadataClient [140493259846720] Can not retrieve resource from http://169.254.169.254/latest/api/token
+[DEBUG] 2024-03-18 23:07:20.724 CurlHandleContainer [140493259846720] Attempting to acquire curl connection.
+[DEBUG] 2024-03-18 23:07:20.724 CurlHandleContainer [140493259846720] Connection has been released. Continuing.
+[DEBUG] 2024-03-18 23:07:20.724 CurlHandleContainer [140493259846720] Returning connection handle 0x55db79b01040
+[DEBUG] 2024-03-18 23:07:20.724 CurlHttpClient [140493259846720] Obtained connection handle 0x55db79b01040
+[DEBUG] 2024-03-18 23:07:20.724 CURL [140493259846720] (Text)   Trying 169.254.169.254:80...
+
+[DEBUG] 2024-03-18 23:07:21.725 CURL [140493259846720] (Text) After 1000ms connect time, move on!
+
+[DEBUG] 2024-03-18 23:07:21.726 CURL [140493259846720] (Text) connect to 169.254.169.254 port 80 failed: Connection timed out
+
+[DEBUG] 2024-03-18 23:07:21.726 CURL [140493259846720] (Text) Connection timeout after 1001 ms
+
+[DEBUG] 2024-03-18 23:07:21.726 CURL [140493259846720] (Text) Closing connection 0
+
+[ERROR] 2024-03-18 23:07:21.726 CurlHttpClient [140493259846720] Curl returned error code 28 - Timeout was reached
+[DEBUG] 2024-03-18 23:07:21.726 CurlHandleContainer [140493259846720] Destroy curl handle: 0x55db79b01040
+[DEBUG] 2024-03-18 23:07:21.726 CurlHandleContainer [140493259846720] Created replacement handle and released to pool: 0x55db79b01040
+[ERROR] 2024-03-18 23:07:21.726 EC2MetadataClient [140493259846720] Http request to retrieve credentials failed
+[WARN] 2024-03-18 23:07:21.726 EC2MetadataClient [140493259846720] Request failed, now waiting 0 ms before attempting again.
+[DEBUG] 2024-03-18 23:07:21.726 CurlHandleContainer [140493259846720] Attempting to acquire curl connection.
+[DEBUG] 2024-03-18 23:07:21.726 CurlHandleContainer [140493259846720] Connection has been released. Continuing.
+[DEBUG] 2024-03-18 23:07:21.726 CurlHandleContainer [140493259846720] Returning connection handle 0x55db79b01040
+[DEBUG] 2024-03-18 23:07:21.726 CurlHttpClient [140493259846720] Obtained connection handle 0x55db79b01040
+[DEBUG] 2024-03-18 23:07:21.726 CURL [140493259846720] (Text)   Trying 169.254.169.254:80...
+
+[DEBUG] 2024-03-18 23:07:22.728 CURL [140493259846720] (Text) After 1000ms connect time, move on!
+
+[DEBUG] 2024-03-18 23:07:22.728 CURL [140493259846720] (Text) connect to 169.254.169.254 port 80 failed: Connection timed out
+
+[DEBUG] 2024-03-18 23:07:22.728 CURL [140493259846720] (Text) Connection timeout after 1001 ms
+
+[DEBUG] 2024-03-18 23:07:22.728 CURL [140493259846720] (Text) Closing connection 0
+
+[ERROR] 2024-03-18 23:07:22.728 CurlHttpClient [140493259846720] Curl returned error code 28 - Timeout was reached
+[DEBUG] 2024-03-18 23:07:22.728 CurlHandleContainer [140493259846720] Destroy curl handle: 0x55db79b01040
+[DEBUG] 2024-03-18 23:07:22.728 CurlHandleContainer [140493259846720] Created replacement handle and released to pool: 0x55db79b01040
+[ERROR] 2024-03-18 23:07:22.728 EC2MetadataClient [140493259846720] Http request to retrieve credentials failed
+[ERROR] 2024-03-18 23:07:22.728 EC2MetadataClient [140493259846720] Can not retrieve resource from http://169.254.169.254/latest/meta-data/iam/security-credentials
+[DEBUG] 2024-03-18 23:07:22.728 CurlHandleContainer [140493259846720] Attempting to acquire curl connection.
+[DEBUG] 2024-03-18 23:07:22.728 CurlHandleContainer [140493259846720] Connection has been released. Continuing.
+[DEBUG] 2024-03-18 23:07:22.728 CurlHandleContainer [140493259846720] Returning connection handle 0x55db79b01040
+[DEBUG] 2024-03-18 23:07:22.728 CurlHttpClient [140493259846720] Obtained connection handle 0x55db79b01040
+[DEBUG] 2024-03-18 23:07:22.728 CURL [140493259846720] (Text)   Trying 169.254.169.254:80...
+
