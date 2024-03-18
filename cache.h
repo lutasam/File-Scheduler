@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// this is the cache based on file number, we should change it to file size.
 class LRUCache
 {
 private:
@@ -111,7 +112,8 @@ public:
     {
         return size == capacity;
     }
-
+    // add a file to cache, if the cache is full, it will give you a file poped from cache, otherwise it will give you an empty file
+    // you can check the file by file.isEmpty()
     FileMeta AddFile(FileMeta newFile)
     {
         FileMeta val = put(newFile.name, newFile);

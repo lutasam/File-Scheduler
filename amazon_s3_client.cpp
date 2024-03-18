@@ -87,6 +87,7 @@ vector<FileMeta> AmazonS3Client::GetAllFileMeta(string path)
             if (afterPath.find('/') == string::npos)
             {
                 files.push_back(FileMeta((S_IFREG | S_IRWXU | S_IRWXG | S_IRWXO),
+                                         FileType::DIRECTORY,
                                          object.GetOwner().GetDisplayName(),
                                          object.GetOwner().GetDisplayName(),
                                          object.GetSize(),
@@ -105,6 +106,7 @@ vector<FileMeta> AmazonS3Client::GetAllFileMeta(string path)
                 }
                 dirNames.insert(dirName);
                 files.push_back(FileMeta((S_IFDIR | S_IRWXU | S_IRWXG | S_IRWXO),
+                                         FileType::NORMAL_FILE,
                                          object.GetOwner().GetDisplayName(),
                                          object.GetOwner().GetDisplayName(),
                                          object.GetSize(),
@@ -248,6 +250,7 @@ FileMeta AmazonS3Client::GetOneFile(string filename, string path)
     const Aws::S3::Model::Object &object = objects.front();
 
     return FileMeta((S_IFREG | S_IRWXU | S_IRWXG | S_IRWXO),
+                    FileType::NORMAL_FILE,
                     object.GetOwner().GetDisplayName(),
                     object.GetOwner().GetDisplayName(),
                     object.GetSize(),
