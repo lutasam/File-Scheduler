@@ -941,7 +941,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    // See which version of fuse we're running
+    // // See which version of fuse we're running
     fprintf(stderr, "Fuse library version %d.%d\n", FUSE_MAJOR_VERSION, FUSE_MINOR_VERSION);
 
     // Perform some sanity checking on the command line:  make sure
@@ -952,9 +952,38 @@ int main(int argc, char *argv[])
     if ((argc < 4) || (argv[argc - 2][0] == '-') || (argv[argc - 1][0] == '-'))
         bb_usage();
 
-    client = std::unique_ptr<AmazonS3Client>(new AmazonS3Client());
+    string cacheSizeStr = string(argv[argc - 1]);
+    size_t cacheSize = 0;
+    try
+    {
+        cacheSize = stoul(cacheSizeStr.substr(0, cacheSizeStr.size() - 1));
+    }
+    catch (exception &e)
+    {
+        fprintf(stderr, "Error cache size format. e.g. 1K, 128M, 10G...\n");
+        exit(EXIT_FAILURE);
+    }
 
-    globalCache = std::unique_ptr<LRUCache>(new LRUCache(std::stoul(string(argv[argc - 1]))));
+    switch (cacheSizeStr[cacheSizeStr.size() - 1])
+    {
+    case 'K':
+    case 'k':
+        cacheSize *= 1024;
+        break;
+    case 'M':
+    case 'm':
+        cacheSize *= 1024 * 1024;
+        break;
+    case 'G':
+    case 'g':
+        cacheSize *= 1024 * 1024 * 1024;
+        break;
+    default:
+        break;
+    }
+
+    // client = std::unique_ptr<AmazonS3Client>(new AmazonS3Client());
+    globalCache = std::unique_ptr<LRUCache>(new LRUCache(cacheSize));
 
     bb_data = (struct bb_state *)malloc(sizeof(struct bb_state));
     if (bb_data == NULL)

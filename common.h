@@ -7,6 +7,7 @@
 #include <chrono>
 #include <unordered_map>
 #include <deque>
+#include <vector>
 
 using namespace std;
 

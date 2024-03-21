@@ -1,20 +1,21 @@
 #include <iostream>
 #include <cstdlib>
 #include "common.h"
+#include "log.h"
 
 using namespace std;
 
-// this is the cache based on file number, we should change it to file size.
+// this is the cache based on file size.
 class LRUCache
 {
 private:
     class DListNode
     {
     public:
-        string filename;
+        string filepath;
         FileMeta file;
         DListNode *pre, *next;
-        DListNode(string _filename = "", FileMeta _file = FileMeta()) : filename(_filename), file(_file), pre(nullptr), next(nullptr) {}
+        DListNode(string _filepath = "", FileMeta _file = FileMeta()) : filepath(_filepath), file(_file), pre(nullptr), next(nullptr) {}
     };
 
     size_t capacity;
@@ -24,10 +25,10 @@ private:
 
     void insert(DListNode *node)
     {
-        cache[node->filename] = node;
-        size++;
+        cache[node->filepath] = node;
+        size += node->file.size;
         tail->pre->next = node;
-        node->pre = tail;
+        node->pre = tail->pre;
         node->next = tail;
         tail->pre = node;
     }
@@ -35,10 +36,12 @@ private:
     FileMeta remove(DListNode *node)
     {
         FileMeta val = node->file;
-        cache.erase(node->filename);
-        size--;
+        size -= val.size;
+        cache.erase(node->filepath);
         node->pre->next = node->next;
         node->next->pre = node->pre;
+        node->pre = nullptr;
+        node->next = nullptr;
         delete node;
         return val;
     }
@@ -60,42 +63,55 @@ private:
         return cache[key]->file;
     }
 
-    FileMeta put(string key, FileMeta value)
+    vector<FileMeta> put(string key, FileMeta value)
     {
+        vector<FileMeta> files;
+
+        if (value.size > capacity)
+        {
+            log_msg("File is too big to add in the file system\n");
+            return files;
+        }
+
         if (cache.find(key) != cache.end())
         {
             update(key, value);
-            return FileMeta();
+            return files;
         }
 
         DListNode *node = new DListNode(key, value);
-        if (size < capacity)
+
+        for (; size + node->file.size > capacity;)
         {
-            insert(node);
-            return FileMeta();
+            FileMeta file = remove(head->next);
+            files.push_back(file);
         }
-        else
-        {
-            FileMeta val = remove(head->next);
-            insert(node);
-            return val;
-        }
+
+        insert(node);
+        return files;
     }
 
 public:
-    LRUCache(size_t _capacity = 10) : capacity(_capacity), size(0), cache(), head(new DListNode()), tail(new DListNode())
+    LRUCache(size_t _capacity = 1024) : capacity(_capacity), size(0), cache(), head(new DListNode()), tail(new DListNode())
     {
         if (_capacity <= 0)
         {
             cerr << "Cache Capacity should greater than 0." << endl;
             exit(EXIT_FAILURE);
         }
+        head->next = tail;
+        tail->pre = head;
     }
 
     ~LRUCache()
     {
-        delete head;
-        delete tail;
+        DListNode *curr = head;
+        for (; curr != nullptr;)
+        {
+            DListNode *temp = curr;
+            curr = curr->next;
+            delete temp;
+        }
     }
 
     size_t GetCapacity()
@@ -112,11 +128,10 @@ public:
     {
         return size == capacity;
     }
-    // add a file to cache, if the cache is full, it will give you a file poped from cache, otherwise it will give you an empty file
-    // you can check the file by file.isEmpty()
-    FileMeta AddFile(FileMeta newFile)
+    // add a file to cache, if the cache is full, it will give you files poped from cache, otherwise it will give you an empty file vector
+    vector<FileMeta> AddFile(FileMeta newFile)
     {
-        FileMeta val = put(newFile.name, newFile);
-        return val;
+        auto files = put(newFile.relativePath, newFile);
+        return files;
     }
 };
