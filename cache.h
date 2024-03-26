@@ -69,13 +69,18 @@ private:
 
         if (value.size > capacity)
         {
-            log_msg("File is too big to add in the file system\n");
+            log_msg("File is too big to add in the file system, %d/%d\n", value.size, capacity);
             return files;
         }
 
         if (cache.find(key) != cache.end())
         {
             update(key, value);
+            for (; size > capacity;)
+            {
+                FileMeta file = remove(head->next);
+                files.push_back(file);
+            }
             return files;
         }
 
@@ -133,5 +138,20 @@ public:
     {
         auto files = put(newFile.relativePath, newFile);
         return files;
+    }
+
+    vector<FileMeta> SelectFilesForUpload() {
+        vector<FileMeta> filesToUpload;
+        while(size > capacity) {
+            FileMeta meta = remove(head->next);
+            filesToUpload.push_back(meta);
+        }
+        return filesToUpload;
+    }
+
+    void RemoveFile(string key) {
+        if (cache.find(key) != cache.end()) {
+            FileMeta meta = remove(cache[key]);
+        }
     }
 };

@@ -192,7 +192,11 @@ int AmazonS3Client::DownloadFile(string filename, string path, string fpath)
     // cerr << "[LOG]: File at '" << filepath << "' downloaded successfully" << endl;
     log_msg(("[LOG]: File at '" + filepath + "' downloaded successfully" + "\n").c_str());
 
-    return SUCCESS;
+    std::ifstream in(fpath, std::ifstream::ate | std::ifstream::binary);
+    int size = in.tellg(); 
+    in.close();
+
+    return size;
 }
 
 int AmazonS3Client::DeleteFile(string filename, string path)
