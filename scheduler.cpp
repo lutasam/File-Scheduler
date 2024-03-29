@@ -982,7 +982,7 @@ int main(int argc, char *argv[])
         break;
     }
 
-    // client = std::unique_ptr<AmazonS3Client>(new AmazonS3Client());
+    client = std::unique_ptr<AmazonS3Client>(new AmazonS3Client());
     globalCache = std::unique_ptr<LRUCache>(new LRUCache(cacheSize));
 
     bb_data = (struct bb_state *)malloc(sizeof(struct bb_state));
