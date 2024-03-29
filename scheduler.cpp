@@ -48,6 +48,7 @@
 std::unique_ptr<AmazonS3Client> client;
 unordered_map<string, FileMeta> cloudFiles;
 std::unique_ptr<LRUCache> globalCache;
+unordered_map<string, FileMeta> createdFiles;
 
 //  All the paths I see are relative to the root of the mounted
 //  filesystem.  In order to get to the underlying filesystem, I need to
@@ -84,31 +85,41 @@ int bb_getattr(const char *path, struct stat *statbuf)
             path, statbuf);
     bb_fullpath(fpath, path);
 
+    // for(auto file: cloudFiles) {
+    //     log_msg("[Debug0] %s\n", file.first);
+    // }
+
     retstat = log_syscall("lstat", lstat(fpath, statbuf), 0);
 
     // if retstat != 0, the file is on the cloud, read the meta from cloud
     if (retstat != 0)
     {
-        auto file = cloudFiles[path];
-        // auto file = client->GetOneFile(path);
-        statbuf->st_dev = 0;                // Device ID of the file
-        statbuf->st_ino = 0;                // Inode number of the file
-        statbuf->st_mode = file.fileAccess; // File type and permissions (set to regular file here)
-        statbuf->st_nlink = 1;              // Number of hard links to the file
-        statbuf->st_uid = getuid();         // Owner user ID of the file
-        statbuf->st_gid = getgid();         // Owner group ID of the file
-        statbuf->st_rdev = 0;               // Device ID if the file is a special file
-        statbuf->st_size = file.size;       // Size of the file in bytes
-        statbuf->st_blksize = 4096;         // Size of the file system I/O buffer
-        statbuf->st_blocks = 0;             // Number of blocks allocated to the file
-        statbuf->st_atime = file.atime;     // Timestamp of the last access
-        statbuf->st_mtime = file.atime;     // Timestamp of the last modification
-        statbuf->st_ctime = file.atime;     // Timestamp of the last status change
+        if(cloudFiles.find(path) != cloudFiles.end()) {
+            auto file = cloudFiles[path];
+            statbuf->st_dev = 0;                // Device ID of the file
+            statbuf->st_ino = 0;                // Inode number of the file
+            statbuf->st_mode = file.fileAccess; // File type and permissions (set to regular file here)
+            statbuf->st_nlink = 1;              // Number of hard links to the file
+            statbuf->st_uid = getuid();         // Owner user ID of the file
+            statbuf->st_gid = getgid();         // Owner group ID of the file
+            statbuf->st_rdev = 0;               // Device ID if the file is a special file
+            statbuf->st_size = file.size;       // Size of the file in bytes
+            statbuf->st_blksize = 4096;         // Size of the file system I/O buffer
+            statbuf->st_blocks = 0;             // Number of blocks allocated to the file
+            statbuf->st_atime = file.atime;     // Timestamp of the last access
+            statbuf->st_mtime = file.atime;     // Timestamp of the last modification
+            statbuf->st_ctime = file.atime;     // Timestamp of the last status change
+            retstat = 0;
+        }
     }
 
     log_stat(statbuf);
 
-    return 0;
+    for(auto file: cloudFiles) {
+        log_msg("[Debug] %s\n", file.first);
+    }
+
+    return retstat;
 }
 
 /** Read the target of a symbolic link
@@ -191,26 +202,67 @@ int bb_mkdir(const char *path, mode_t mode)
 
 /** Remove a file */
 int bb_unlink(const char *path)
-{
+{   
+    int retstat = 0;
     char fpath[PATH_MAX];
 
     log_msg("bb_unlink(path=\"%s\")\n",
             path);
     bb_fullpath(fpath, path);
 
-    return log_syscall("unlink", unlink(fpath), 0);
+    struct stat statbuf;
+    int exist = lstat(fpath, &statbuf);
+    if(exist == 0) {
+        retstat = unlink(fpath);
+        if (retstat != 0) {
+            retstat = -errno;
+            log_msg("\n[ERROR] bb_unlink: Unlinking local file failed: %s\n", strerror(errno));
+        } else {
+            globalCache->RemoveFile(path);
+        }
+    } else {
+        string filename = getFileName(path);
+        string filepath = getFilePath(path);
+        
+        int cloudRet = client->DeleteFile(filename, filepath);
+        if (cloudRet != SUCCESS) {
+            log_msg("\n[ERROR] bb_unlink: Deleting cloud file failed\n");
+            retstat = -errno;
+        }
+    }
+
+    return retstat;
 }
 
 /** Remove a directory */
 int bb_rmdir(const char *path)
 {
+    int retstat = 0;
     char fpath[PATH_MAX];
 
     log_msg("bb_rmdir(path=\"%s\")\n",
             path);
     bb_fullpath(fpath, path);
 
-    return log_syscall("rmdir", rmdir(fpath), 0);
+    struct stat statbuf;
+    if (stat(fpath, &statbuf) == 0) {
+        retstat = rmdir(fpath);
+        if (retstat != 0) {
+            retstat = -errno;
+        } else {
+            globalCache->RemoveFile(path);
+        }
+    } else {
+        string dirname = getFileName(path);
+        string dirpath = getFilePath(path); 
+        int cloudRet = client->DeleteFile(dirname, dirpath);
+        if (cloudRet != SUCCESS) {
+            log_msg("\n[ERROR] bb_rmdir: Deleting cloud directory failed\n");
+            retstat = -errno; 
+        }
+    }
+
+    return retstat;
 }
 
 /** Create a symbolic link */
@@ -322,6 +374,7 @@ int bb_open(const char *path, struct fuse_file_info *fi)
     int retstat = 0;
     int fd;
     char fpath[PATH_MAX];
+    int size = -1;
 
     log_msg("\nbb_open(path\"%s\", fi=0x%08x)\n",
             path, fi);
@@ -329,15 +382,46 @@ int bb_open(const char *path, struct fuse_file_info *fi)
 
     string filename = getFileName(path);
     string filepath = getFilePath(path);
-
+    for(auto file : cloudFiles) {
+        log_msg("[Cloud open] %s, %s\n", file.first.c_str(), path);
+    }
     if (cloudFiles.find(path) != cloudFiles.end())
     {
-        int res = client->DownloadFile(filename, filepath, fpath);
-        if (res != SUCCESS)
+        size = client->DownloadFile(filename, filepath, fpath);
+        if (size < 0)
         {
             log_msg("[LOG]: Download file fails.file: %s\n", path);
         }
         client->DeleteFile(filename, filepath);
+    }
+
+    log_msg("[Log] ffpath %s, path %s\n", fpath, path);
+    if(size < 0) {
+        std::ifstream in(fpath, std::ifstream::ate | std::ifstream::binary);
+        size = in.tellg(); 
+        in.close();
+        log_msg("[Size] %d\n", size);
+    }
+    FileMeta fileMeta = FileMeta((S_IFREG | S_IRWXU | S_IRWXG | S_IRWXO),
+                                        FileType::NORMAL_FILE,
+                                        "",
+                                        "",
+                                        size,
+                                        0,
+                                        filename,
+                                        path,
+                                        fpath);
+    auto files = globalCache->AddFile(fileMeta);
+    if(size == 0) {
+        createdFiles[path] = fileMeta;
+    } 
+    for (auto file : files) {
+        int res = client->UploadFile(file.name, getFilePath(file.relativePath), file.path);
+        log_msg("[LOG] open upload filename %s, path %s, fpath %s", file.name, file.relativePath, file.path);
+        if (res != SUCCESS) {
+            log_msg("[LOG]: Upload file fails.file: %s\n", file.relativePath);
+        }
+        unlink(file.path.c_str());
     }
 
     // if the open call succeeds, my retstat is the file descriptor,
@@ -478,13 +562,47 @@ int bb_flush(const char *path, struct fuse_file_info *fi)
  */
 int bb_release(const char *path, struct fuse_file_info *fi)
 {
+
     log_msg("\nbb_release(path=\"%s\", fi=0x%08x)\n",
             path, fi);
     log_fi(fi);
 
+    int res = close(fi->fh);
+    if (res == -1)
+        res = -errno;
+    for(auto file : createdFiles) {
+        log_msg("[Release size] %s\n", file.first);
+    }
+    if(createdFiles.find(path) != createdFiles.end()) {
+        char fpath[PATH_MAX];
+        bb_fullpath(fpath, path);
+        std::ifstream in(fpath, std::ifstream::ate | std::ifstream::binary);
+        int size = in.tellg(); 
+        in.close();
+        log_msg("[Release size] %d\n", size);
+        FileMeta fileMeta = createdFiles[path];
+        fileMeta.size = size;
+        auto files = globalCache->AddFile(fileMeta);
+        createdFiles.erase(path);
+
+        for(auto file : files) {
+            auto filename = getFileName(path);
+            client->UploadFile(filename, path, fpath);
+            log_msg("[LOG] release upload filename %s, path %s, fpath %s", filename, path, fpath);
+        }
+    }
+
+    // if (globalCache->GetSize() > globalCache->GetCapacity()) {
+    //     vector<FileMeta> filesToUpload = globalCache->SelectFilesForUpload();
+    //     for (const auto& fileMeta : filesToUpload) {
+    //         client->UploadFile(getFileName(fileMeta.relativePath), getFilePath(fileMeta.relativePath), fileMeta.relativePath);
+    //         unlink(fileMeta.relativePath.c_str());
+    //     }
+    // }
+
     // We need to close the file.  Had we allocated any resources
     // (buffers etc) we'd need to free them here as well.
-    return log_syscall("close", close(fi->fh), 0);
+    return res;
 }
 
 /** Synchronize file contents
@@ -681,8 +799,12 @@ int bb_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset
     for (auto file : files)
     {
         cloudFiles[file.relativePath] = file;
-        log_msg("calling filler with name %s\n", file.name);
+        log_msg("cloud calling filler with name %s\n", file.name);
         filler(buf, file.name.c_str(), NULL, 0);
+    }
+
+    for(auto file : cloudFiles) {
+        log_msg("[Cloud] %s \n", file.first);
     }
 
     log_fi(fi);
@@ -984,6 +1106,7 @@ int main(int argc, char *argv[])
 
     client = std::unique_ptr<AmazonS3Client>(new AmazonS3Client());
     globalCache = std::unique_ptr<LRUCache>(new LRUCache(cacheSize));
+
 
     bb_data = (struct bb_state *)malloc(sizeof(struct bb_state));
     if (bb_data == NULL)
