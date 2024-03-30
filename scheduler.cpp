@@ -47,7 +47,8 @@
 // global variable
 std::unique_ptr<AmazonS3Client> client;
 unordered_map<string, FileMeta> cloudFiles;
-std::unique_ptr<LRUCache> globalCache;
+// std::unique_ptr<LRUCache> globalCache; // lru cache
+std::unique_ptr<TwoQCache> globalCache; // 2q cache
 unordered_map<string, FileMeta> createdFiles;
 
 //  All the paths I see are relative to the root of the mounted
@@ -94,7 +95,8 @@ int bb_getattr(const char *path, struct stat *statbuf)
     // if retstat != 0, the file is on the cloud, read the meta from cloud
     if (retstat != 0)
     {
-        if(cloudFiles.find(path) != cloudFiles.end()) {
+        if (cloudFiles.find(path) != cloudFiles.end())
+        {
             auto file = cloudFiles[path];
             statbuf->st_dev = 0;                // Device ID of the file
             statbuf->st_ino = 0;                // Inode number of the file
@@ -115,8 +117,9 @@ int bb_getattr(const char *path, struct stat *statbuf)
 
     log_stat(statbuf);
 
-    for(auto file: cloudFiles) {
-        log_msg("[Debug] %s\n", file.first);
+    for (auto file : cloudFiles)
+    {
+        log_msg("[Debug] %s\n", file.first.c_str());
     }
 
     return retstat;
@@ -202,7 +205,7 @@ int bb_mkdir(const char *path, mode_t mode)
 
 /** Remove a file */
 int bb_unlink(const char *path)
-{   
+{
     int retstat = 0;
     char fpath[PATH_MAX];
 
@@ -212,20 +215,27 @@ int bb_unlink(const char *path)
 
     struct stat statbuf;
     int exist = lstat(fpath, &statbuf);
-    if(exist == 0) {
+    if (exist == 0)
+    {
         retstat = unlink(fpath);
-        if (retstat != 0) {
+        if (retstat != 0)
+        {
             retstat = -errno;
             log_msg("\n[ERROR] bb_unlink: Unlinking local file failed: %s\n", strerror(errno));
-        } else {
+        }
+        else
+        {
             globalCache->RemoveFile(path);
         }
-    } else {
+    }
+    else
+    {
         string filename = getFileName(path);
         string filepath = getFilePath(path);
-        
+
         int cloudRet = client->DeleteFile(filename, filepath);
-        if (cloudRet != SUCCESS) {
+        if (cloudRet != SUCCESS)
+        {
             log_msg("\n[ERROR] bb_unlink: Deleting cloud file failed\n");
             retstat = -errno;
         }
@@ -245,20 +255,27 @@ int bb_rmdir(const char *path)
     bb_fullpath(fpath, path);
 
     struct stat statbuf;
-    if (stat(fpath, &statbuf) == 0) {
+    if (stat(fpath, &statbuf) == 0)
+    {
         retstat = rmdir(fpath);
-        if (retstat != 0) {
+        if (retstat != 0)
+        {
             retstat = -errno;
-        } else {
+        }
+        else
+        {
             globalCache->RemoveFile(path);
         }
-    } else {
+    }
+    else
+    {
         string dirname = getFileName(path);
-        string dirpath = getFilePath(path); 
+        string dirpath = getFilePath(path);
         int cloudRet = client->DeleteFile(dirname, dirpath);
-        if (cloudRet != SUCCESS) {
+        if (cloudRet != SUCCESS)
+        {
             log_msg("\n[ERROR] bb_rmdir: Deleting cloud directory failed\n");
-            retstat = -errno; 
+            retstat = -errno;
         }
     }
 
@@ -382,7 +399,8 @@ int bb_open(const char *path, struct fuse_file_info *fi)
 
     string filename = getFileName(path);
     string filepath = getFilePath(path);
-    for(auto file : cloudFiles) {
+    for (auto file : cloudFiles)
+    {
         log_msg("[Cloud open] %s, %s\n", file.first.c_str(), path);
     }
     if (cloudFiles.find(path) != cloudFiles.end())
@@ -396,29 +414,33 @@ int bb_open(const char *path, struct fuse_file_info *fi)
     }
 
     log_msg("[Log] ffpath %s, path %s\n", fpath, path);
-    if(size < 0) {
+    if (size < 0)
+    {
         std::ifstream in(fpath, std::ifstream::ate | std::ifstream::binary);
-        size = in.tellg(); 
+        size = in.tellg();
         in.close();
         log_msg("[Size] %d\n", size);
     }
     FileMeta fileMeta = FileMeta((S_IFREG | S_IRWXU | S_IRWXG | S_IRWXO),
-                                        FileType::NORMAL_FILE,
-                                        "",
-                                        "",
-                                        size,
-                                        0,
-                                        filename,
-                                        path,
-                                        fpath);
+                                 FileType::NORMAL_FILE,
+                                 "",
+                                 "",
+                                 size,
+                                 0,
+                                 filename,
+                                 path,
+                                 fpath);
     auto files = globalCache->AddFile(fileMeta);
-    if(size == 0) {
+    if (size == 0)
+    {
         createdFiles[path] = fileMeta;
-    } 
-    for (auto file : files) {
+    }
+    for (auto file : files)
+    {
         int res = client->UploadFile(file.name, getFilePath(file.relativePath), file.path);
         log_msg("[LOG] open upload filename %s, path %s, fpath %s", file.name, file.relativePath, file.path);
-        if (res != SUCCESS) {
+        if (res != SUCCESS)
+        {
             log_msg("[LOG]: Upload file fails.file: %s\n", file.relativePath);
         }
         unlink(file.path.c_str());
@@ -570,14 +592,16 @@ int bb_release(const char *path, struct fuse_file_info *fi)
     int res = close(fi->fh);
     if (res == -1)
         res = -errno;
-    for(auto file : createdFiles) {
-        log_msg("[Release size] %s\n", file.first);
+    for (auto file : createdFiles)
+    {
+        log_msg("[Release size] %s\n", file.first.c_str());
     }
-    if(createdFiles.find(path) != createdFiles.end()) {
+    if (createdFiles.find(path) != createdFiles.end())
+    {
         char fpath[PATH_MAX];
         bb_fullpath(fpath, path);
         std::ifstream in(fpath, std::ifstream::ate | std::ifstream::binary);
-        int size = in.tellg(); 
+        int size = in.tellg();
         in.close();
         log_msg("[Release size] %d\n", size);
         FileMeta fileMeta = createdFiles[path];
@@ -585,10 +609,11 @@ int bb_release(const char *path, struct fuse_file_info *fi)
         auto files = globalCache->AddFile(fileMeta);
         createdFiles.erase(path);
 
-        for(auto file : files) {
+        for (auto file : files)
+        {
             auto filename = getFileName(path);
             client->UploadFile(filename, path, fpath);
-            log_msg("[LOG] release upload filename %s, path %s, fpath %s", filename, path, fpath);
+            log_msg("[LOG] release upload filename %s, path %s, fpath %s", filename.c_str(), path, fpath);
         }
     }
 
@@ -799,12 +824,13 @@ int bb_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset
     for (auto file : files)
     {
         cloudFiles[file.relativePath] = file;
-        log_msg("cloud calling filler with name %s\n", file.name);
+        log_msg("cloud calling filler with name %s\n", file.name.c_str());
         filler(buf, file.name.c_str(), NULL, 0);
     }
 
-    for(auto file : cloudFiles) {
-        log_msg("[Cloud] %s \n", file.first);
+    for (auto file : cloudFiles)
+    {
+        log_msg("[Cloud] %s \n", file.first.c_str());
     }
 
     log_fi(fi);
@@ -1042,6 +1068,67 @@ void bb_usage()
     abort();
 }
 
+void initCache(std::string dirpath)
+{
+    fprintf(stderr, "[LOG]: load the files from rootdir to the cache\n");
+    if (dirpath.back() != '/')
+    {
+        dirpath.append("/");
+    }
+
+    DIR *dir;
+    struct dirent *entry;
+    struct stat fileStat;
+
+    if ((dir = opendir(dirpath.c_str())) != NULL)
+    {
+        while ((entry = readdir(dir)) != NULL)
+        {
+            string filename(entry->d_name);
+            if (filename == "." || filename == "..")
+            {
+                continue;
+            }
+            char path[PATH_MAX];
+            snprintf(path, sizeof(path), "%s%s", dirpath.c_str(), entry->d_name);
+
+            if (stat(path, &fileStat) < 0)
+            {
+                fprintf(stderr, "Error in init Cache\n");
+                exit(EXIT_FAILURE);
+            }
+            if (entry->d_type == DT_REG)
+            {
+                string relativePath(entry->d_name);
+                relativePath = "/" + relativePath;
+                globalCache->AddFile(FileMeta(
+                    0,
+                    FileType::NORMAL_FILE,
+                    "",
+                    "",
+                    fileStat.st_size,
+                    0,
+                    entry->d_name,
+                    relativePath,
+                    path));
+            }
+            else if (entry->d_type == DT_DIR)
+            {
+                string subDirPath(entry->d_name);
+                subDirPath = dirpath + subDirPath + "/";
+                initCache(subDirPath);
+            }
+            fprintf(stderr, "[LOG]: load %s to cache successfully\n", path);
+        }
+        closedir(dir);
+    }
+    else
+    {
+        fprintf(stderr, "rootdir error in init Cache\n");
+        exit(EXIT_FAILURE);
+    }
+}
+
 int main(int argc, char *argv[])
 {
 
@@ -1100,13 +1187,17 @@ int main(int argc, char *argv[])
     case 'g':
         cacheSize *= 1024 * 1024 * 1024;
         break;
-    default:
+    case 'b':
+    case 'B':
         break;
+    default:
+        fprintf(stderr, "Error cache size format. e.g. 10b, 1K, 128M, 10G...\n");
+        abort();
     }
 
     client = std::unique_ptr<AmazonS3Client>(new AmazonS3Client());
-    globalCache = std::unique_ptr<LRUCache>(new LRUCache(cacheSize));
-
+    // globalCache = std::unique_ptr<LRUCache>(new LRUCache(cacheSize));
+    globalCache = std::unique_ptr<TwoQCache>(new TwoQCache(cacheSize));
 
     bb_data = (struct bb_state *)malloc(sizeof(struct bb_state));
     if (bb_data == NULL)
@@ -1118,6 +1209,9 @@ int main(int argc, char *argv[])
     // Pull the rootdir out of the argument list and save it in my
     // internal data
     bb_data->rootdir = realpath(argv[argc - 3], NULL);
+
+    initCache(bb_data->rootdir);
+
     argv[argc - 3] = argv[argc - 2];
     argv[argc - 2] = NULL;
     argv[argc - 1] = NULL;

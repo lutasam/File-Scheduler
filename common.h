@@ -48,7 +48,7 @@ public:
                                                                               name(_name), relativePath(_relativePath), path(_path) {}
     bool IsEmpty()
     {
-        return name.empty();
+        return relativePath.empty();
     }
 };
 
