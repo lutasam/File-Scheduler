@@ -13,7 +13,10 @@
 #include <aws/s3/model/DeleteObjectResult.h>
 #include <aws/s3/model/ListObjectsV2Request.h>
 #include <aws/s3/model/ListObjectsV2Result.h>
+#include <aws/s3/model/HeadObjectRequest.h>
+#include <aws/s3/model/HeadObjectResult.h>
 #include <vector>
+#include <future>
 #include "log.h"
 
 #include "common.h"
@@ -27,6 +30,43 @@ class AmazonS3Client
 private:
     Aws::SDKOptions *options;
     Aws::S3::S3Client *s3Client;
+    std::mutex mtx;
+
+    void DownloadBlock(string filepath, string fpath, long long startByte, long long endByte, int &blockSize)
+    {
+        Aws::S3::Model::GetObjectRequest getObjectRequest;
+        getObjectRequest.SetBucket(BUCKET_NAME);
+        getObjectRequest.SetKey(filepath.c_str());
+        getObjectRequest.SetRange(("bytes=" + std::to_string(startByte) + "-" + std::to_string(endByte)).c_str());
+
+        auto getObjectOutcome = s3Client->GetObject(getObjectRequest);
+        if (getObjectOutcome.IsSuccess())
+        {
+            auto &response = getObjectOutcome.GetResultWithOwnership().GetBody();
+
+            std::ofstream outFile(fpath, std::ofstream::binary | std::ofstream::app);
+            if (outFile.is_open())
+            {
+                std::lock_guard<std::mutex> lock(mtx);
+                outFile.seekp(startByte);
+                outFile << response.rdbuf();
+                outFile.close();
+            }
+            else
+            {
+                log_msg(("Failed to open file: " + fpath + "\n").c_str());
+                blockSize = -1;
+                return;
+            }
+
+            blockSize = response.tellg();
+        }
+        else
+        {
+            log_msg((" Failed to download file : " + getObjectOutcome.GetError().GetMessage() + "\n").c_str());
+            blockSize = -1;
+        }
+    }
 
 public:
     AmazonS3Client();
@@ -44,12 +84,18 @@ public:
     vector<FileMeta> GetAllFileMeta(string path);
     // upload the file to the cloud, 0 for success
     int UploadFile(string filename, string path, string fpath);
+    // upload files by multiple threads, need test!
+    int UploadAllFile(const vector<FileMeta> &files);
     // download the file and store it in local, 0 for success
     int DownloadFile(string filename, string path, string fpath);
+    // download files by multiple threads, need test!
+    int DownloadFileByMultiThreads(string filename, string path, string fpath);
     // delete the file on cloud, 0 for success
     int DeleteFile(string filename, string path);
     // get one file info from cloud
     FileMeta GetOneFile(string filename, string path);
+    // get the size of file from cloud
+    long long GetFileSize(string filename, string path);
 };
 
 // /a/d.txt return d.txt

@@ -706,6 +706,7 @@ CMakeFiles/scheduler.dir/amazon_s3_client.cpp.o: ../amazon_s3_client.cpp \
   /usr/local/include/aws/s3/model/ChecksumMode.h \
   /usr/local/include/aws/s3/model/DeleteObjectRequest.h \
   /usr/local/include/aws/s3/model/ListObjectsV2Request.h \
+  /usr/local/include/aws/s3/model/HeadObjectRequest.h \
   ../log.h \
   ../common.h \
   /usr/include/c++/11/fstream \
@@ -1605,6 +1606,7 @@ CMakeFiles/scheduler.dir/scheduler.cpp.o: ../scheduler.cpp \
   /usr/local/include/aws/s3/model/ChecksumMode.h \
   /usr/local/include/aws/s3/model/DeleteObjectRequest.h \
   /usr/local/include/aws/s3/model/ListObjectsV2Request.h \
+  /usr/local/include/aws/s3/model/HeadObjectRequest.h \
   ../common.h \
   /usr/include/c++/11/fstream \
   /usr/include/c++/11/bits/codecvt.h \
@@ -1675,6 +1677,8 @@ CMakeFiles/scheduler.dir/scheduler.cpp.o: ../scheduler.cpp \
 /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h:
 
 /usr/include/c++/11/bits/codecvt.h:
+
+/usr/local/include/aws/s3/model/HeadObjectRequest.h:
 
 /usr/local/include/aws/s3/model/ListObjectsV2Request.h:
 

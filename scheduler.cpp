@@ -406,6 +406,7 @@ int bb_open(const char *path, struct fuse_file_info *fi)
     if (cloudFiles.find(path) != cloudFiles.end())
     {
         size = client->DownloadFile(filename, filepath, fpath);
+        // size = client->DownloadFileByMultiThreads(filename, filepath, fpath);
         if (size < 0)
         {
             log_msg("[LOG]: Download file fails.file: %s\n", path);

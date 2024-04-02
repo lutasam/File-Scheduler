@@ -160,6 +160,25 @@ int AmazonS3Client::UploadFile(string filename, string path, string fpath)
     return SUCCESS;
 }
 
+int AmazonS3Client::UploadAllFile(const vector<FileMeta> &files)
+{
+    vector<std::future<int>> futures;
+    for (auto file : files)
+    {
+        futures.push_back(async(launch::async, &AmazonS3Client::UploadFile, this, file.name, getFilePath(file.relativePath), file.path));
+    }
+
+    for (auto &future : futures)
+    {
+        int status = future.get();
+        if (status != SUCCESS)
+        {
+            return FAILURE;
+        }
+    }
+    return SUCCESS;
+}
+
 int AmazonS3Client::DownloadFile(string filename, string path, string fpath)
 {
     if (path[path.size() - 1] != '/')
@@ -193,10 +212,52 @@ int AmazonS3Client::DownloadFile(string filename, string path, string fpath)
     log_msg(("[LOG]: File at '" + filepath + "' downloaded successfully" + "\n").c_str());
 
     std::ifstream in(fpath, std::ifstream::ate | std::ifstream::binary);
-    int size = in.tellg(); 
+    int size = in.tellg();
     in.close();
 
     return size;
+}
+
+int AmazonS3Client::DownloadFileByMultiThreads(string filename, string path, string fpath)
+{
+    if (path[path.size() - 1] != '/')
+    {
+        path += '/';
+    }
+    std::string filepath = path + filename;
+
+    long long fileSize = GetFileSize(filename, path);
+
+    // download file with 2 threads
+    long long blockSize = fileSize / NUM_THREAD;
+
+    std::vector<std::thread> threads;
+    std::vector<int> blockSizes(NUM_THREAD);
+    for (int i = 0; i < NUM_THREAD; ++i)
+    {
+        long long startByte = i * blockSize;
+        long long endByte = (i == NUM_THREAD - 1) ? fileSize - 1 : (i + 1) * blockSize - 1;
+        log_msg("[LOG]: startByte: %ld, endByte: %ld\n", startByte, endByte);
+        threads.emplace_back(&AmazonS3Client::DownloadBlock, this, filepath, fpath, startByte, endByte, std::ref(blockSizes[i]));
+    }
+
+    for (auto &thread : threads)
+    {
+        thread.join();
+    }
+
+    int totalSize = 0;
+    for (int size : blockSizes)
+    {
+        if (size == -1)
+        {
+            return FAILURE;
+        }
+        totalSize += size;
+        log_msg("[LOG]: size: %d\n", size);
+    }
+
+    return totalSize;
 }
 
 int AmazonS3Client::DeleteFile(string filename, string path)
@@ -262,4 +323,28 @@ FileMeta AmazonS3Client::GetOneFile(string filename, string path)
                     filename,
                     filepath,
                     "");
+}
+
+long long AmazonS3Client::GetFileSize(string filename, string path)
+{
+    if (path[path.size() - 1] != '/')
+    {
+        path += '/';
+    }
+    string filepath = path + filename;
+
+    Aws::S3::Model::HeadObjectRequest headObjectRequest;
+    headObjectRequest.SetBucket(BUCKET_NAME);
+    headObjectRequest.SetKey(filepath.c_str());
+
+    auto headObjectOutcome = s3Client->HeadObject(headObjectRequest);
+    if (!headObjectOutcome.IsSuccess())
+    {
+        log_msg(("Failed to get file size: " + headObjectOutcome.GetError().GetMessage() + "\n").c_str());
+        exit(EXIT_FAILURE);
+    }
+
+    long long fileSize = headObjectOutcome.GetResult().GetContentLength();
+
+    return fileSize;
 }

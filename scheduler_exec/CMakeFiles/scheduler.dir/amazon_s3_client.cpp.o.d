@@ -639,6 +639,7 @@ CMakeFiles/scheduler.dir/amazon_s3_client.cpp.o: \
  /usr/local/include/aws/s3/model/ChecksumMode.h \
  /usr/local/include/aws/s3/model/DeleteObjectRequest.h \
  /usr/local/include/aws/s3/model/ListObjectsV2Request.h \
+ /usr/local/include/aws/s3/model/HeadObjectRequest.h \
  /home/vcm/File-Scheduler/log.h /home/vcm/File-Scheduler/common.h \
  /usr/include/c++/11/fstream /usr/include/c++/11/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
