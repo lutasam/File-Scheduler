@@ -127,6 +127,7 @@ int AmazonS3Client::UploadFile(string filename, string path, string fpath)
         path += '/';
     }
     string filepath = path + filename;
+    cout << filepath << endl;
 
     Aws::S3::Model::PutObjectRequest request;
     request.SetBucket(BUCKET_NAME);

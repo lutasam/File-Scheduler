@@ -438,8 +438,8 @@ int bb_open(const char *path, struct fuse_file_info *fi)
     }
     for (auto file : files)
     {
+        log_msg("[LOG] open upload filename %s, path %s, fpath %s", file.name.c_str(), file.relativePath.c_str(), file.path.c_str());
         int res = client->UploadFile(file.name, getFilePath(file.relativePath), file.path);
-        log_msg("[LOG] open upload filename %s, path %s, fpath %s", file.name, file.relativePath, file.path);
         if (res != SUCCESS)
         {
             log_msg("[LOG]: Upload file fails.file: %s\n", file.relativePath);
@@ -1069,7 +1069,7 @@ void bb_usage()
     abort();
 }
 
-void initCache(std::string dirpath)
+void initCache(string dirpath, string mountPath)
 {
     fprintf(stderr, "[LOG]: load the files from rootdir to the cache\n");
     if (dirpath.back() != '/')
@@ -1090,36 +1090,45 @@ void initCache(std::string dirpath)
             {
                 continue;
             }
-            char path[PATH_MAX];
-            snprintf(path, sizeof(path), "%s%s", dirpath.c_str(), entry->d_name);
+            char fpath[PATH_MAX];
+            snprintf(fpath, sizeof(fpath), "%s%s", dirpath.c_str(), entry->d_name);
 
-            if (stat(path, &fileStat) < 0)
+            if (stat(fpath, &fileStat) < 0)
             {
                 fprintf(stderr, "Error in init Cache\n");
                 exit(EXIT_FAILURE);
             }
+            string relativePath = mountPath + string(entry->d_name);
             if (entry->d_type == DT_REG)
             {
-                string relativePath(entry->d_name);
-                relativePath = "/" + relativePath;
-                globalCache->AddFile(FileMeta(
+                auto files = globalCache->AddFile(FileMeta(
                     0,
                     FileType::NORMAL_FILE,
                     "",
                     "",
                     fileStat.st_size,
                     0,
-                    entry->d_name,
+                    string(entry->d_name),
                     relativePath,
-                    path));
+                    string(fpath)));
+                // for (auto file : files)
+                // {
+                //     int status = client->UploadFile(file.name, getFilePath(file.relativePath), file.path);
+                //     if (status != SUCCESS)
+                //     {
+                //         cerr << "Init upload file fails." << endl;
+                //         exit(EXIT_FAILURE);
+                //     }
+                //     unlink(file.path.c_str());
+                // }
             }
             else if (entry->d_type == DT_DIR)
             {
-                string subDirPath(entry->d_name);
-                subDirPath = dirpath + subDirPath + "/";
-                initCache(subDirPath);
+                string subDirPath = dirpath + string(entry->d_name) + "/";
+                relativePath += "/";
+                initCache(subDirPath, relativePath);
             }
-            fprintf(stderr, "[LOG]: load %s to cache successfully\n", path);
+            fprintf(stderr, "[LOG]: load %s to cache successfully\n", fpath);
         }
         closedir(dir);
     }
@@ -1211,7 +1220,7 @@ int main(int argc, char *argv[])
     // internal data
     bb_data->rootdir = realpath(argv[argc - 3], NULL);
 
-    initCache(bb_data->rootdir);
+    initCache(bb_data->rootdir, string("/"));
 
     argv[argc - 3] = argv[argc - 2];
     argv[argc - 2] = NULL;

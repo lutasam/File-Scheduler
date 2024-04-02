@@ -28,7 +28,7 @@ public:
 //     unordered_map<string, DListNode *> cache;
 //     DListNode *head, *tail;
 
-//     void insert(DListNode *node)
+//     void insert(DListNode * node)
 //     {
 //         cache[node->filepath] = node;
 //         size += node->file.size;
@@ -38,7 +38,7 @@ public:
 //         tail->pre = node;
 //     }
 
-//     FileMeta remove(DListNode *node)
+//     FileMeta remove(DListNode * node)
 //     {
 //         FileMeta val = node->file;
 //         size -= val.size;
@@ -197,9 +197,20 @@ private:
 
     void update(string key, FileMeta newVal)
     {
-        removeHead();
-        DListNode *node = new DListNode(key, newVal);
-        insert(node);
+        // removeHead();
+        // DListNode *node = new DListNode(key, newVal);
+        // insert(node);
+        if (newVal.relativePath != key)
+        {
+            RemoveFile(key);
+            DListNode *node = new DListNode(key, newVal);
+            insert(node);
+        }
+        else
+        {
+            size += newVal.size - cache[key]->file.size;
+            cache[key]->file = newVal;
+        }
     }
 
     FileMeta get(string key)
@@ -208,7 +219,7 @@ private:
         {
             return FileMeta();
         }
-        update(key, cache[key]->file);
+        // update(key, cache[key]->file);
         return cache[key]->file;
     }
 
@@ -218,7 +229,7 @@ private:
 
         if (value.size > capacity)
         {
-            // log_msg("File is too big to add in the file system, %d/%d\n", value.size, capacity);
+            log_msg("File is too big to add in the file system, %d/%d\n", value.size, capacity);
             return files;
         }
 
@@ -460,18 +471,17 @@ public:
 class TwoQCache
 {
 private:
-    size_t capacity;
     unordered_map<string, FileMeta> cache;
     FIFO *fifo;
     LRUCache *lru;
 
     FileMeta get(string key)
     {
-        if (cache.find(key) != cache.end())
+        if (fifo->Contains(key) || lru->Contains(key))
         {
             if (fifo->Contains(key))
             {
-                fifo->Update(key, cache[key]);
+                // fifo->Update(key, cache[key]);
             }
             else
             {
@@ -487,6 +497,7 @@ private:
 
     vector<FileMeta> put(string key, FileMeta value)
     {
+        // log_msg("[CACHE LOG]: key=%s, size=%u\n", key.c_str(), value.size);
         vector<FileMeta> files;
 
         if (cache.find(key) != cache.end())
@@ -498,30 +509,25 @@ private:
             files = lru->AddFile(value);
             for (auto file : files)
             {
+                // log_msg("[CACHE LOG]: Upload file: %s\n", file.relativePath.c_str());
                 cache.erase(file.relativePath);
             }
             return files;
         }
 
         cache[key] = value;
-        auto fifoFiles = fifo->AddFile(value);
-        for (auto file : fifoFiles)
-        {
-            auto temp = lru->AddFile(file);
-            for (auto f : temp)
-            {
-                files.push_back(f);
-            }
-        }
+        files = fifo->AddFile(value);
         for (auto file : files)
         {
+            files.push_back(file);
             cache.erase(file.relativePath);
+            // log_msg("[CACHE LOG]: Upload file: %s", file.relativePath.c_str());
         }
         return files;
     }
 
 public:
-    TwoQCache(size_t cap) : capacity(cap), fifo(new FIFO(cap)), lru(new LRUCache(cap)) {}
+    TwoQCache(size_t cap) : fifo(new FIFO(cap)), lru(new LRUCache(cap)) {}
 
     ~TwoQCache()
     {

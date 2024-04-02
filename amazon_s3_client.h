@@ -48,6 +48,7 @@ private:
             if (outFile.is_open())
             {
                 std::lock_guard<std::mutex> lock(mtx);
+                log_msg("[LOG]: BLOCK DOWNLOAD, startByte: %ld\n", startByte);
                 outFile.seekp(startByte);
                 outFile << response.rdbuf();
                 outFile.close();
