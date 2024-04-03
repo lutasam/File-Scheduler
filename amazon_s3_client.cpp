@@ -229,15 +229,16 @@ int AmazonS3Client::DownloadFileByMultiThreads(string filename, string path, str
 
     long long fileSize = GetFileSize(filename, path);
 
-    // download file with 2 threads
-    long long blockSize = fileSize / NUM_THREAD;
+    // download file with threads
+    // long long blockSize = fileSize / NUM_THREAD;
+    int threadNum = fileSize == 0 ? 1 : (fileSize-1) / BLOCK_SIZE + 1;
 
     std::vector<std::thread> threads;
-    std::vector<int> blockSizes(NUM_THREAD);
-    for (int i = 0; i < NUM_THREAD; ++i)
+    std::vector<int> blockSizes(threadNum);
+    for (int i = 0; i < threadNum; ++i)
     {
-        long long startByte = i * blockSize;
-        long long endByte = (i == NUM_THREAD - 1) ? fileSize - 1 : (i + 1) * blockSize - 1;
+        long long startByte = i * BLOCK_SIZE;
+        long long endByte = (i == threadNum - 1) ? fileSize - 1 : (i + 1) * BLOCK_SIZE - 1;
         log_msg("[LOG]: startByte: %ld, endByte: %ld\n", startByte, endByte);
         threads.emplace_back(&AmazonS3Client::DownloadBlock, this, filepath, fpath, startByte, endByte, std::ref(blockSizes[i]));
     }

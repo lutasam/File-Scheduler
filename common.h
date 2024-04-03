@@ -20,7 +20,8 @@ using namespace std;
 // global variables
 const string MOUNT_DIR = "/home/vcm/bbfs/mount";
 const string BUCKET_NAME = "ece566cloud";
-const size_t NUM_THREAD = 2;
+// const size_t NUM_THREAD = 2;
+const long long BLOCK_SIZE = 16;
 
 enum FileType
 {

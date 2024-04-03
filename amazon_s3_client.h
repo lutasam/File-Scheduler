@@ -34,6 +34,8 @@ private:
 
     void DownloadBlock(string filepath, string fpath, long long startByte, long long endByte, int &blockSize)
     {
+        std::lock_guard<std::mutex> lock(mtx);
+        // log_msg("hello file=%s, fpath=%s\n", filepath.c_str(), fpath.c_str());
         Aws::S3::Model::GetObjectRequest getObjectRequest;
         getObjectRequest.SetBucket(BUCKET_NAME);
         getObjectRequest.SetKey(filepath.c_str());
@@ -42,20 +44,21 @@ private:
         auto getObjectOutcome = s3Client->GetObject(getObjectRequest);
         if (getObjectOutcome.IsSuccess())
         {
+
             auto &response = getObjectOutcome.GetResultWithOwnership().GetBody();
 
             std::ofstream outFile(fpath, std::ofstream::binary | std::ofstream::app);
             if (outFile.is_open())
             {
-                std::lock_guard<std::mutex> lock(mtx);
-                log_msg("[LOG]: BLOCK DOWNLOAD, startByte: %ld\n", startByte);
+
+                // log_msg("[LOG]: BLOCK DOWNLOAD, startByte: %ld - %ld\n", startByte, endByte);
                 outFile.seekp(startByte);
                 outFile << response.rdbuf();
                 outFile.close();
             }
             else
             {
-                log_msg(("Failed to open file: " + fpath + "\n").c_str());
+                // log_msg(("Failed to open file: " + fpath + "\n").c_str());
                 blockSize = -1;
                 return;
             }
@@ -64,7 +67,7 @@ private:
         }
         else
         {
-            log_msg((" Failed to download file : " + getObjectOutcome.GetError().GetMessage() + "\n").c_str());
+            // log_msg((" Failed to download file : " + getObjectOutcome.GetError().GetMessage() + "\n").c_str());
             blockSize = -1;
         }
     }
