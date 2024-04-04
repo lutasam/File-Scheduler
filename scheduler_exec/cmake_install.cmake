@@ -1,4 +1,4 @@
-# Install script for directory: /home/vcm/File-Scheduler
+# Install script for directory: /home/vcm/ECE566/project/File-Scheduler/scheduler_exec
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/vcm/File-Scheduler/scheduler_exec/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/vcm/ECE566/project/File-Scheduler/scheduler_exec/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -18,8 +18,8 @@ using namespace std;
 #define FAILURE -1
 
 // global variables
-const string MOUNT_DIR = "/home/vcm/bbfs/mount";
-const string BUCKET_NAME = "ece566cloud";
+const string MOUNT_DIR = "/home/vcm/ECE566/project/File-Scheduler/mount";
+const string BUCKET_NAME = "ece566cloud2";
 // const size_t NUM_THREAD = 2;
 const long long BLOCK_SIZE = 16;
 

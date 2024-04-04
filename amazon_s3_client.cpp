@@ -18,7 +18,7 @@ string getFilePath(string path)
         return path;
     }
     size_t idx = path.rfind('/');
-    return path.substr(0, idx);
+    return path.substr(0, idx + 1);
 }
 
 AmazonS3Client::AmazonS3Client()
@@ -161,21 +161,37 @@ int AmazonS3Client::UploadFile(string filename, string path, string fpath)
     return SUCCESS;
 }
 
+// int AmazonS3Client::UploadAllFile(const vector<FileMeta> &files)
+// {
+//     vector<std::future<int>> futures;
+//     for (auto file : files)
+//     {
+//         futures.push_back(async(launch::async, &AmazonS3Client::UploadFile, this, file.name, getFilePath(file.relativePath), file.path));
+//     }
+
+//     for (auto &future : futures)
+//     {
+//         int status = future.get();
+//         if (status != SUCCESS)
+//         {
+//             return FAILURE;
+//         }
+//     }
+//     return SUCCESS;
+// }
+
 int AmazonS3Client::UploadAllFile(const vector<FileMeta> &files)
 {
-    vector<std::future<int>> futures;
+    std::vector<std::thread> threads;
     for (auto file : files)
-    {
-        futures.push_back(async(launch::async, &AmazonS3Client::UploadFile, this, file.name, getFilePath(file.relativePath), file.path));
+    {   
+        log_msg("[thread] %s, %s, %s\n", file.name.c_str(), getFilePath(file.relativePath).c_str(), file.path.c_str());
+        threads.emplace_back(&AmazonS3Client::UploadFile, this, file.name, getFilePath(file.relativePath), file.path);
     }
 
-    for (auto &future : futures)
+    for (auto &thread : threads)
     {
-        int status = future.get();
-        if (status != SUCCESS)
-        {
-            return FAILURE;
-        }
+        thread.join();
     }
     return SUCCESS;
 }

@@ -86,15 +86,16 @@ int bb_getattr(const char *path, struct stat *statbuf)
             path, statbuf);
     bb_fullpath(fpath, path);
 
-    // for(auto file: cloudFiles) {
-    //     log_msg("[Debug0] %s\n", file.first);
-    // }
+    for(auto file: cloudFiles) {
+        log_msg("[Debug0] %s\n", file.first.c_str());
+    }
 
     retstat = log_syscall("lstat", lstat(fpath, statbuf), 0);
 
     // if retstat != 0, the file is on the cloud, read the meta from cloud
     if (retstat != 0)
-    {
+    {   
+        log_msg("[Debug] ddddd path=%s\n", path);
         if (cloudFiles.find(path) != cloudFiles.end())
         {
             auto file = cloudFiles[path];
@@ -112,6 +113,7 @@ int bb_getattr(const char *path, struct stat *statbuf)
             statbuf->st_mtime = file.atime;     // Timestamp of the last modification
             statbuf->st_ctime = file.atime;     // Timestamp of the last status change
             retstat = 0;
+            log_msg("[Debug] dddd path=%s\n", path);
         }
     }
 
@@ -119,7 +121,7 @@ int bb_getattr(const char *path, struct stat *statbuf)
 
     for (auto file : cloudFiles)
     {
-        log_msg("[Debug] %s\n", file.first.c_str());
+        log_msg("[Debug] %s, %d\n", file.first.c_str(), retstat);
     }
 
     return retstat;
@@ -215,6 +217,11 @@ int bb_unlink(const char *path)
 
     struct stat statbuf;
     int exist = lstat(fpath, &statbuf);
+    // if(cloudFiles.find(path) != cloudFiles.end()) {
+    //     string filename = getFileName(path);
+    //     string filepath = getFilePath(path);
+    //     client->DeleteFile(filename, filepath);
+    // }
     if (exist == 0)
     {
         retstat = unlink(fpath);
@@ -232,7 +239,6 @@ int bb_unlink(const char *path)
     {
         string filename = getFileName(path);
         string filepath = getFilePath(path);
-
         int cloudRet = client->DeleteFile(filename, filepath);
         if (cloudRet != SUCCESS)
         {
@@ -399,10 +405,10 @@ int bb_open(const char *path, struct fuse_file_info *fi)
 
     string filename = getFileName(path);
     string filepath = getFilePath(path);
-    for (auto file : cloudFiles)
-    {
-        log_msg("[Cloud open] %s, %s\n", file.first.c_str(), path);
-    }
+    // for (auto file : cloudFiles)
+    // {
+    //     log_msg("[Cloud open] %s, %s\n", file.first.c_str(), path);
+    // }
     if (cloudFiles.find(path) != cloudFiles.end())
     {
         // size = client->DownloadFile(filename, filepath, fpath);
@@ -415,37 +421,40 @@ int bb_open(const char *path, struct fuse_file_info *fi)
     }
 
     log_msg("[Log] ffpath %s, path %s\n", fpath, path);
-    if (size < 0)
-    {
-        std::ifstream in(fpath, std::ifstream::ate | std::ifstream::binary);
-        size = in.tellg();
-        in.close();
-        log_msg("[Size] %d\n", size);
-    }
-    FileMeta fileMeta = FileMeta((S_IFREG | S_IRWXU | S_IRWXG | S_IRWXO),
-                                 FileType::NORMAL_FILE,
-                                 "",
-                                 "",
-                                 size,
-                                 0,
-                                 filename,
-                                 path,
-                                 fpath);
-    auto files = globalCache->AddFile(fileMeta);
-    if (size == 0)
-    {
-        createdFiles[path] = fileMeta;
-    }
-    for (auto file : files)
-    {
-        log_msg("[LOG] open upload filename %s, path %s, fpath %s", file.name.c_str(), file.relativePath.c_str(), file.path.c_str());
-        int res = client->UploadFile(file.name, getFilePath(file.relativePath), file.path);
-        if (res != SUCCESS)
-        {
-            log_msg("[LOG]: Upload file fails.file: %s\n", file.relativePath);
-        }
-        unlink(file.path.c_str());
-    }
+    // if (size < 0)
+    // {
+    //     std::ifstream in(fpath, std::ifstream::ate | std::ifstream::binary);
+    //     size = in.tellg();
+    //     in.close();
+    //     log_msg("[Size] %d\n", size);
+    // }
+    // FileMeta fileMeta = FileMeta((S_IFREG | S_IRWXU | S_IRWXG | S_IRWXO),
+    //                              FileType::NORMAL_FILE,
+    //                              "",
+    //                              "",
+    //                              size,
+    //                              0,
+    //                              filename,
+    //                              path,
+    //                              fpath);
+    // log_msg("[bb_open] cache adding\n");
+    // auto files = globalCache->AddFile(fileMeta);
+    // log_msg("[bb_open] cache added\n");
+    // if (size == 0)
+    // {
+    //     createdFiles[path] = fileMeta;
+    // }
+    // retstat = client->UploadAllFile(files);
+    // for (auto file : files)
+    // {
+    //     log_msg("[LOG] open upload filename %s, path %s, fpath %s", file.name.c_str(), file.relativePath.c_str(), file.path.c_str());
+    //     int res = client->UploadFile(file.name, getFilePath(file.relativePath), file.path);
+    //     if (res != SUCCESS)
+    //     {
+    //         log_msg("[LOG]: Upload file fails.file: %s\n", file.relativePath);
+    //     }
+    //     unlink(file.path.c_str());
+    // }
 
     // if the open call succeeds, my retstat is the file descriptor,
     // else it's -errno.  I'm making sure that in that case the saved
@@ -597,26 +606,43 @@ int bb_release(const char *path, struct fuse_file_info *fi)
     {
         log_msg("[Release size] %s\n", file.first.c_str());
     }
-    if (createdFiles.find(path) != createdFiles.end())
-    {
+    // if (createdFiles.find(path) != createdFiles.end())
+    // {
         char fpath[PATH_MAX];
         bb_fullpath(fpath, path);
+        auto filename = getFileName(path);
         std::ifstream in(fpath, std::ifstream::ate | std::ifstream::binary);
         int size = in.tellg();
         in.close();
         log_msg("[Release size] %d\n", size);
-        FileMeta fileMeta = createdFiles[path];
-        fileMeta.size = size;
+        FileMeta fileMeta = FileMeta((S_IFREG | S_IRWXU | S_IRWXG | S_IRWXO),
+                                 FileType::NORMAL_FILE,
+                                 "",
+                                 "",
+                                 size,
+                                 0,
+                                 filename,
+                                 path,
+                                 fpath);
+        log_msg("[thread out] %s\n", fileMeta.relativePath.c_str());
+        // FileMeta fileMeta = createdFiles[path];
+        // fileMeta.size = size;
         auto files = globalCache->AddFile(fileMeta);
-        createdFiles.erase(path);
+
+        // createdFiles.erase(path);
+
+        // client->UploadAllFile(files);
 
         for (auto file : files)
         {
-            auto filename = getFileName(path);
-            client->UploadFile(filename, path, fpath);
-            log_msg("[LOG] release upload filename %s, path %s, fpath %s", filename.c_str(), path, fpath);
+            auto filename = getFileName(file.relativePath);
+            auto filepath = getFilePath(file.relativePath);
+            bb_fullpath(fpath, file.relativePath.c_str());
+            client->UploadFile(filename, filepath, fpath);
+            log_msg("[LOG] release upload filename %s, path %s\n", filename.c_str(), filepath.c_str());
+            unlink(file.path.c_str());
         }
-    }
+    // }
 
     // if (globalCache->GetSize() > globalCache->GetCapacity()) {
     //     vector<FileMeta> filesToUpload = globalCache->SelectFilesForUpload();
@@ -745,6 +771,12 @@ int bb_opendir(const char *path, struct fuse_file_info *fi)
             path, fi);
     bb_fullpath(fpath, path);
 
+    // string dirName = getFileName(path);
+    // string dirPath = getFilePath(path);
+    // if(cloudFiles.find(path) != cloudFiles.end()) {
+    //     int 
+    // }
+
     // since opendir returns a pointer, takes some custom handling of
     // return status.
     dp = opendir(fpath);
@@ -825,7 +857,7 @@ int bb_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset
     for (auto file : files)
     {
         cloudFiles[file.relativePath] = file;
-        log_msg("cloud calling filler with name %s\n", file.name.c_str());
+        log_msg("cloud calling filler with name %s, relative_path %s\n", file.name.c_str(), file.relativePath.c_str());
         filler(buf, file.name.c_str(), NULL, 0);
     }
 
@@ -934,7 +966,9 @@ int bb_access(const char *path, int mask)
     log_msg("\nbb_access(path=\"%s\", mask=0%o)\n",
             path, mask);
     bb_fullpath(fpath, path);
-
+    if(cloudFiles.find(path) != cloudFiles.end()) {
+        return 0;
+    }
     retstat = access(fpath, mask);
 
     if (retstat < 0)

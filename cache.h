@@ -190,7 +190,8 @@ private:
         FileMeta val = curr->file;
         size -= val.size;
         cache.erase(curr->filepath);
-        head->next = head->next->next;
+        head->next = curr->next;
+        curr->next->pre = head;
         delete curr;
         return val;
     }
@@ -226,10 +227,10 @@ private:
     vector<FileMeta> put(string key, FileMeta value)
     {
         vector<FileMeta> files;
-
+        // log_msg("[put] %s 1111", key.c_str());
         if (value.size > capacity)
         {
-            log_msg("File is too big to add in the file system, %d/%d\n", value.size, capacity);
+            // log_msg("File is too big to add in the file system, %d/%d\n", value.size, capacity);
             return files;
         }
 
@@ -243,16 +244,17 @@ private:
             }
             return files;
         }
-
+        // log_msg("[put] 2222");
         DListNode *node = new DListNode(key, value);
-
+        // log_msg("[put] 3333");
         for (; size + node->file.size > capacity;)
         {
             FileMeta file = removeHead();
             files.push_back(file);
         }
-
+        // log_msg("[put] 4444");
         insert(node);
+        // log_msg("[put] 5555");
         return files;
     }
 
@@ -514,15 +516,17 @@ private:
             }
             return files;
         }
-
+        // log_msg(" 1111 \n");
         cache[key] = value;
         files = fifo->AddFile(value);
+        // log_msg(" 2222 \n");
         for (auto file : files)
         {
             files.push_back(file);
             cache.erase(file.relativePath);
             // log_msg("[CACHE LOG]: Upload file: %s", file.relativePath.c_str());
         }
+        // log_msg(" 3333 \n");
         return files;
     }
 
@@ -564,7 +568,8 @@ public:
     }
 
     void RemoveFile(string key)
-    {
+    {   
+        this->cache.erase(key);
         if (fifo->Contains(key))
         {
             fifo->RemoveFile(key);
