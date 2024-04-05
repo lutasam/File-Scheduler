@@ -306,11 +306,17 @@ public:
             return;
         }
         auto node = cache[key];
-        cache.erase(node->filepath);
+        cache.erase(key);
         size -= node->file.size;
         node->pre->next = node->next;
         node->next->pre = node->pre;
         delete node;
+    }
+
+    void printCache() {
+        for (auto pair : cache) {
+            log_msg("[FICACHE] key=%s\n", pair.first.c_str());
+        }
     }
 };
 
@@ -468,11 +474,17 @@ public:
         }
         remove(cache[key]);
     }
+
+    void printCache() {
+        for (auto pair : cache) {
+            log_msg("[LRUCACHE] key=%s\n", pair.first.c_str());
+        }
+    }
 };
 
 class TwoQCache
 {
-private:
+public:
     unordered_map<string, FileMeta> cache;
     FIFO *fifo;
     LRUCache *lru;
@@ -522,7 +534,7 @@ private:
         // log_msg(" 2222 \n");
         for (auto file : files)
         {
-            files.push_back(file);
+            // files.push_back(file);
             cache.erase(file.relativePath);
             // log_msg("[CACHE LOG]: Upload file: %s", file.relativePath.c_str());
         }
@@ -581,6 +593,12 @@ public:
         else
         {
             log_msg("No such file\n");
+        }
+    }
+
+    void printCache() {
+        for (auto pair : cache) {
+            log_msg("[2QCACHE] key=%s\n", pair.first.c_str());
         }
     }
 };

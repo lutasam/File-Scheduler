@@ -628,6 +628,9 @@ int bb_release(const char *path, struct fuse_file_info *fi)
         // FileMeta fileMeta = createdFiles[path];
         // fileMeta.size = size;
         auto files = globalCache->AddFile(fileMeta);
+        globalCache->printCache();
+        globalCache->fifo->printCache();
+        globalCache->lru->printCache();
 
         // createdFiles.erase(path);
 
