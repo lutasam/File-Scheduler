@@ -184,7 +184,7 @@ int AmazonS3Client::UploadAllFile(const vector<FileMeta> &files)
 {
     std::vector<std::thread> threads;
     for (auto file : files)
-    {   
+    {
         log_msg("[thread] %s, %s, %s\n", file.name.c_str(), getFilePath(file.relativePath).c_str(), file.path.c_str());
         threads.emplace_back(&AmazonS3Client::UploadFile, this, file.name, getFilePath(file.relativePath), file.path);
     }
@@ -247,7 +247,9 @@ int AmazonS3Client::DownloadFileByMultiThreads(string filename, string path, str
 
     // download file with threads
     // long long blockSize = fileSize / NUM_THREAD;
-    int threadNum = fileSize == 0 ? 1 : (fileSize-1) / BLOCK_SIZE + 1;
+    int threadNum = fileSize == 0 ? 1 : (fileSize - 1) / BLOCK_SIZE + 1;
+
+    outFile = std::ofstream(fpath, std::ofstream::binary | std::ofstream::ate);
 
     std::vector<std::thread> threads;
     std::vector<int> blockSizes(threadNum);
@@ -263,6 +265,7 @@ int AmazonS3Client::DownloadFileByMultiThreads(string filename, string path, str
     {
         thread.join();
     }
+    
 
     int totalSize = 0;
     for (int size : blockSizes)
@@ -274,6 +277,8 @@ int AmazonS3Client::DownloadFileByMultiThreads(string filename, string path, str
         totalSize += size;
         log_msg("[LOG]: size: %d\n", size);
     }
+
+    outFile.close();
 
     return totalSize;
 }

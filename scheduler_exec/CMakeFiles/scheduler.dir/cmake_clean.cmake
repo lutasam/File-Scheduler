@@ -1,10 +1,10 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/scheduler.dir/home/vcm/ECE566/project/File-Scheduler/amazon_s3_client.cpp.o"
-  "CMakeFiles/scheduler.dir/home/vcm/ECE566/project/File-Scheduler/amazon_s3_client.cpp.o.d"
-  "CMakeFiles/scheduler.dir/home/vcm/ECE566/project/File-Scheduler/log.cpp.o"
-  "CMakeFiles/scheduler.dir/home/vcm/ECE566/project/File-Scheduler/log.cpp.o.d"
-  "CMakeFiles/scheduler.dir/home/vcm/ECE566/project/File-Scheduler/scheduler.cpp.o"
-  "CMakeFiles/scheduler.dir/home/vcm/ECE566/project/File-Scheduler/scheduler.cpp.o.d"
+  "CMakeFiles/scheduler.dir/amazon_s3_client.cpp.o"
+  "CMakeFiles/scheduler.dir/amazon_s3_client.cpp.o.d"
+  "CMakeFiles/scheduler.dir/log.cpp.o"
+  "CMakeFiles/scheduler.dir/log.cpp.o.d"
+  "CMakeFiles/scheduler.dir/scheduler.cpp.o"
+  "CMakeFiles/scheduler.dir/scheduler.cpp.o.d"
   "scheduler"
   "scheduler.pdb"
 )

@@ -31,10 +31,11 @@ private:
     Aws::SDKOptions *options;
     Aws::S3::S3Client *s3Client;
     std::mutex mtx;
+    std::ofstream outFile;
 
     void DownloadBlock(string filepath, string fpath, long long startByte, long long endByte, int &blockSize)
     {
-        std::lock_guard<std::mutex> lock(mtx);
+
         // log_msg("hello file=%s, fpath=%s\n", filepath.c_str(), fpath.c_str());
         Aws::S3::Model::GetObjectRequest getObjectRequest;
         getObjectRequest.SetBucket(BUCKET_NAME);
@@ -47,14 +48,13 @@ private:
 
             auto &response = getObjectOutcome.GetResultWithOwnership().GetBody();
 
-            std::ofstream outFile(fpath, std::ofstream::binary | std::ofstream::app);
+            // std::ofstream outFile(fpath, std::ofstream::binary | std::ofstream::ate);
             if (outFile.is_open())
             {
-
+                std::lock_guard<std::mutex> lock(mtx);
                 // log_msg("[LOG]: BLOCK DOWNLOAD, startByte: %ld - %ld\n", startByte, endByte);
-                outFile.seekp(startByte);
+                outFile.seekp(startByte, ios::beg);
                 outFile << response.rdbuf();
-                outFile.close();
             }
             else
             {
