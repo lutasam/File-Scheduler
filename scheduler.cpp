@@ -86,7 +86,8 @@ int bb_getattr(const char *path, struct stat *statbuf)
             path, statbuf);
     bb_fullpath(fpath, path);
 
-    for(auto file: cloudFiles) {
+    for (auto file : cloudFiles)
+    {
         log_msg("[Debug0] %s\n", file.first.c_str());
     }
 
@@ -94,7 +95,7 @@ int bb_getattr(const char *path, struct stat *statbuf)
 
     // if retstat != 0, the file is on the cloud, read the meta from cloud
     if (retstat != 0)
-    {   
+    {
         log_msg("[Debug] ddddd path=%s\n", path);
         if (cloudFiles.find(path) != cloudFiles.end())
         {
@@ -608,14 +609,14 @@ int bb_release(const char *path, struct fuse_file_info *fi)
     }
     // if (createdFiles.find(path) != createdFiles.end())
     // {
-        char fpath[PATH_MAX];
-        bb_fullpath(fpath, path);
-        auto filename = getFileName(path);
-        std::ifstream in(fpath, std::ifstream::ate | std::ifstream::binary);
-        int size = in.tellg();
-        in.close();
-        log_msg("[Release size] %d\n", size);
-        FileMeta fileMeta = FileMeta((S_IFREG | S_IRWXU | S_IRWXG | S_IRWXO),
+    char fpath[PATH_MAX];
+    bb_fullpath(fpath, path);
+    auto filename = getFileName(path);
+    std::ifstream in(fpath, std::ifstream::ate | std::ifstream::binary);
+    int size = in.tellg();
+    in.close();
+    log_msg("[Release size] %d\n", size);
+    FileMeta fileMeta = FileMeta((S_IFREG | S_IRWXU | S_IRWXG | S_IRWXO),
                                  FileType::NORMAL_FILE,
                                  "",
                                  "",
@@ -624,27 +625,27 @@ int bb_release(const char *path, struct fuse_file_info *fi)
                                  filename,
                                  path,
                                  fpath);
-        log_msg("[thread out] %s\n", fileMeta.relativePath.c_str());
-        // FileMeta fileMeta = createdFiles[path];
-        // fileMeta.size = size;
-        auto files = globalCache->AddFile(fileMeta);
-        globalCache->printCache();
-        globalCache->fifo->printCache();
-        globalCache->lru->printCache();
+    log_msg("[thread out] %s\n", fileMeta.relativePath.c_str());
+    // FileMeta fileMeta = createdFiles[path];
+    // fileMeta.size = size;
+    auto files = globalCache->AddFile(fileMeta);
+    globalCache->printCache();
+    globalCache->fifo->printCache();
+    globalCache->lru->printCache();
 
-        // createdFiles.erase(path);
+    // createdFiles.erase(path);
 
-        // client->UploadAllFile(files);
+    // client->UploadAllFile(files);
 
-        for (auto file : files)
-        {
-            auto filename = getFileName(file.relativePath);
-            auto filepath = getFilePath(file.relativePath);
-            bb_fullpath(fpath, file.relativePath.c_str());
-            client->UploadFile(filename, filepath, fpath);
-            log_msg("[LOG] release upload filename %s, path %s\n", filename.c_str(), filepath.c_str());
-            unlink(file.path.c_str());
-        }
+    for (auto file : files)
+    {
+        auto filename = getFileName(file.relativePath);
+        auto filepath = getFilePath(file.relativePath);
+        bb_fullpath(fpath, file.relativePath.c_str());
+        client->UploadFile(filename, filepath, fpath);
+        log_msg("[LOG] release upload filename %s, path %s\n", filename.c_str(), filepath.c_str());
+        unlink(file.path.c_str());
+    }
     // }
 
     // if (globalCache->GetSize() > globalCache->GetCapacity()) {
@@ -777,7 +778,7 @@ int bb_opendir(const char *path, struct fuse_file_info *fi)
     // string dirName = getFileName(path);
     // string dirPath = getFilePath(path);
     // if(cloudFiles.find(path) != cloudFiles.end()) {
-    //     int 
+    //     int
     // }
 
     // since opendir returns a pointer, takes some custom handling of
@@ -969,7 +970,8 @@ int bb_access(const char *path, int mask)
     log_msg("\nbb_access(path=\"%s\", mask=0%o)\n",
             path, mask);
     bb_fullpath(fpath, path);
-    if(cloudFiles.find(path) != cloudFiles.end()) {
+    if (cloudFiles.find(path) != cloudFiles.end())
+    {
         return 0;
     }
     retstat = access(fpath, mask);
@@ -1148,16 +1150,10 @@ void initCache(string dirpath, string mountPath)
                     string(entry->d_name),
                     relativePath,
                     string(fpath)));
-                // for (auto file : files)
-                // {
-                //     int status = client->UploadFile(file.name, getFilePath(file.relativePath), file.path);
-                //     if (status != SUCCESS)
-                //     {
-                //         cerr << "Init upload file fails." << endl;
-                //         exit(EXIT_FAILURE);
-                //     }
-                //     unlink(file.path.c_str());
-                // }
+                for (auto file : files)
+                {
+                    globalCache->lru->AddFile(file);
+                }
             }
             else if (entry->d_type == DT_DIR)
             {

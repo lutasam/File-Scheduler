@@ -313,8 +313,10 @@ public:
         delete node;
     }
 
-    void printCache() {
-        for (auto pair : cache) {
+    void printCache()
+    {
+        for (auto pair : cache)
+        {
             log_msg("[FICACHE] key=%s\n", pair.first.c_str());
         }
     }
@@ -475,8 +477,10 @@ public:
         remove(cache[key]);
     }
 
-    void printCache() {
-        for (auto pair : cache) {
+    void printCache()
+    {
+        for (auto pair : cache)
+        {
             log_msg("[LRUCACHE] key=%s\n", pair.first.c_str());
         }
     }
@@ -486,9 +490,13 @@ class TwoQCache
 {
 public:
     unordered_map<string, FileMeta> cache;
+    unordered_map<string, int> cacheFreq;
     FIFO *fifo;
     LRUCache *lru;
+    int threshold = 4;
 
+private:
+    // no use
     FileMeta get(string key)
     {
         if (fifo->Contains(key) || lru->Contains(key))
@@ -516,26 +524,40 @@ public:
 
         if (cache.find(key) != cache.end())
         {
-            if (fifo->Contains(key))
+            cacheFreq[key]++;
+            if (fifo->Contains(key) && cacheFreq[key] >= threshold)
             {
                 fifo->RemoveFile(key);
+                files = lru->AddFile(value);
+                for (auto file : files)
+                {
+                    // log_msg("[CACHE LOG]: Upload file: %s\n", file.relativePath.c_str());
+                    cache.erase(file.relativePath);
+                    cacheFreq.erase(file.relativePath);
+                }
             }
-            files = lru->AddFile(value);
-            for (auto file : files)
+            else if (lru->Contains(key))
             {
-                // log_msg("[CACHE LOG]: Upload file: %s\n", file.relativePath.c_str());
-                cache.erase(file.relativePath);
+                files = lru->AddFile(value);
+                for (auto file : files)
+                {
+                    // log_msg("[CACHE LOG]: Upload file: %s\n", file.relativePath.c_str());
+                    cache.erase(file.relativePath);
+                    cacheFreq.erase(file.relativePath);
+                }
             }
             return files;
         }
         // log_msg(" 1111 \n");
         cache[key] = value;
+        cacheFreq[key] = 1;
         files = fifo->AddFile(value);
         // log_msg(" 2222 \n");
         for (auto file : files)
         {
             // files.push_back(file);
             cache.erase(file.relativePath);
+            cacheFreq.erase(file.relativePath);
             // log_msg("[CACHE LOG]: Upload file: %s", file.relativePath.c_str());
         }
         // log_msg(" 3333 \n");
@@ -580,7 +602,7 @@ public:
     }
 
     void RemoveFile(string key)
-    {   
+    {
         this->cache.erase(key);
         if (fifo->Contains(key))
         {
@@ -596,8 +618,10 @@ public:
         }
     }
 
-    void printCache() {
-        for (auto pair : cache) {
+    void printCache()
+    {
+        for (auto pair : cache)
+        {
             log_msg("[2QCACHE] key=%s\n", pair.first.c_str());
         }
     }
