@@ -1,0 +1,1300 @@
+
+bb_init()
+    conn:
+    proto_major =  7
+    proto_minor =  34
+    async_read =  1
+    max_write =  131072
+    max_readahead =  131072
+    capable = 00000ffb
+    want = 00000010
+    max_background =  0
+    congestion_threshold =  0
+    context:
+    fuse = 8cee1180
+    uid =  0
+    gid =  0
+    pid =  0
+    private_data = 8ce17940
+    logfile = 8ce831d0
+    rootdir = /home/vcm/cloud/rootdir
+    umask = 00000
+
+bb_getattr(path="/", statbuf=0x54699e70)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  46144108
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  6
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 6615459d
+    st_mtime = 0x 6615459d
+    st_ctime = 0x 6615459d
+
+bb_access(path="/", mask=01)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+
+bb_opendir(path="/", fi=0x54699e90)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+    opendir returned 0x0x7fd74c001840
+    fi:
+    flags = 0x 00018800
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c001840
+    lock_owner = 0x 0000000000000000
+
+bb_readdir(path="/", buf=0x4c0017c0, filler=0x571a5ac0, offset=0, fi=0x53e98e90)
+    readdir returned 0x0x7fd74c001870
+calling filler with name .
+calling filler with name ..
+[LOG]: /file1
+[LOG]: /file2
+cloud calling filler with name file1, relative_path /file1
+cloud calling filler with name file2, relative_path /file2
+[Cloud] /file2 
+[Cloud] /file1 
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd74c001840
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c001840
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/file1", statbuf=0x54699ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file1", fpath = "/home/vcm/cloud/rootdir/file1"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file1
+[Debug] dddd path=/file1
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 66154428
+    st_mtime = 0x 66154428
+    st_ctime = 0x 66154428
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_getattr(path="/file2", statbuf=0x53e98ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file2", fpath = "/home/vcm/cloud/rootdir/file2"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file2
+[Debug] dddd path=/file2
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661543b3
+    st_mtime = 0x 661543b3
+    st_ctime = 0x 661543b3
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_releasedir(path="/", fi=0x53e98e90)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd74c001840
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c001840
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/file1", statbuf=0x54699ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file1", fpath = "/home/vcm/cloud/rootdir/file1"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file1
+[Debug] dddd path=/file1
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 66154428
+    st_mtime = 0x 66154428
+    st_ctime = 0x 66154428
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_open(path"/file1", fi=0x53e98f50)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file1", fpath = "/home/vcm/cloud/rootdir/file1"
+[LOG]: startByte: 0, endByte: 1
+[LOG]: startByte: 2, endByte: 2
+[LOG]: size: 2
+[LOG]: size: 1
+[LOG]: File at '/file1' deleteed successfully
+[Log] ffpath /home/vcm/cloud/rootdir/file1, path /file1
+    open returned 11
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x 0000000000000000
+
+bb_read(path="/file1", buf=0x4c0019b0, size=4096, offset=0, fi=0x54699f50)
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 0000000b
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x 0000000000000000
+    pread returned 3
+
+bb_flush(path="/file1", fi=0x53e98f50)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 0000000b
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x a8456773d5aacbcf
+
+bb_release(path="/file1", fi=0x54699f50)
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 0000000b
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x 0000000000000000
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file1", fpath = "/home/vcm/cloud/rootdir/file1"
+[Release size] 3
+[LOG]: Add file at '/file1' successfully.
+bb_unlink(path="/file1")
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file1", fpath = "/home/vcm/cloud/rootdir/file1"
+
+bb_getattr(path="/", statbuf=0x53e98e70)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  46144108
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  6
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 6615459d
+    st_mtime = 0x 661545b0
+    st_ctime = 0x 661545b0
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_opendir(path="/", fi=0x54699e90)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+    opendir returned 0x0x7fd74c00fa10
+    fi:
+    flags = 0x 00018800
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_readdir(path="/", buf=0x4c002f40, filler=0x571a5ac0, offset=0, fi=0x53e98e90)
+    readdir returned 0x0x7fd74c00fa40
+calling filler with name .
+calling filler with name ..
+[LOG]: /file1
+[LOG]: /file2
+cloud calling filler with name file1, relative_path /file1
+cloud calling filler with name file2, relative_path /file2
+[Cloud] /file2 
+[Cloud] /file1 
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd74c00fa10
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_releasedir(path="/", fi=0x53e98e90)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd74c00fa10
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/file2", statbuf=0x54699ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file2", fpath = "/home/vcm/cloud/rootdir/file2"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file2
+[Debug] dddd path=/file2
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661543b3
+    st_mtime = 0x 661543b3
+    st_ctime = 0x 661543b3
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_getattr(path="/file1", statbuf=0x54699e70)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file1", fpath = "/home/vcm/cloud/rootdir/file1"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file1
+[Debug] dddd path=/file1
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545b1
+    st_mtime = 0x 661545b1
+    st_ctime = 0x 661545b1
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_opendir(path="/", fi=0x54699e90)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+    opendir returned 0x0x7fd74c00fa10
+    fi:
+    flags = 0x 00018800
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/", statbuf=0x53e98e70)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  46144108
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  6
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545b0
+    st_mtime = 0x 661545b0
+    st_ctime = 0x 661545b0
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_readdir(path="/", buf=0x4c006350, filler=0x571a5ac0, offset=0, fi=0x54699e90)
+    readdir returned 0x0x7fd74c00fa40
+calling filler with name .
+calling filler with name ..
+[LOG]: /file1
+[LOG]: /file2
+cloud calling filler with name file1, relative_path /file1
+cloud calling filler with name file2, relative_path /file2
+[Cloud] /file2 
+[Cloud] /file1 
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd74c00fa10
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/file1", statbuf=0x53e98ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file1", fpath = "/home/vcm/cloud/rootdir/file1"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file1
+[Debug] dddd path=/file1
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545b1
+    st_mtime = 0x 661545b1
+    st_ctime = 0x 661545b1
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_releasedir(path="/", fi=0x53e98e90)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd74c00fa10
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/file", statbuf=0x54699ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file", fpath = "/home/vcm/cloud/rootdir/file"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 0
+    st_nlink =  0
+    st_uid =  0
+    st_gid =  0
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  0
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+[Debug] /file2, -2
+[Debug] /file1, -2
+
+bb_getattr(path="/file2", statbuf=0x53e98ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file2", fpath = "/home/vcm/cloud/rootdir/file2"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file2
+[Debug] dddd path=/file2
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661543b3
+    st_mtime = 0x 661543b3
+    st_ctime = 0x 661543b3
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_open(path"/file2", fi=0x54699f50)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file2", fpath = "/home/vcm/cloud/rootdir/file2"
+[LOG]: startByte: 0, endByte: 1
+[LOG]: startByte: 2, endByte: 2
+[LOG]: size: 2
+[LOG]: size: 1
+[LOG]: File at '/file2' deleteed successfully
+[Log] ffpath /home/vcm/cloud/rootdir/file2, path /file2
+    open returned 11
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x 0000000000000000
+
+bb_read(path="/file2", buf=0x440543f0, size=4096, offset=0, fi=0x53e98f50)
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 0000000b
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x 0000000000000000
+    pread returned 3
+
+bb_flush(path="/file2", fi=0x54699f50)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 0000000b
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x 63aef18c227b113f
+
+bb_release(path="/file2", fi=0x53e98f50)
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 0000000b
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x 0000000000000000
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file2", fpath = "/home/vcm/cloud/rootdir/file2"
+[Release size] 3
+[LOG]: Add file at '/file2' successfully.
+bb_unlink(path="/file2")
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file2", fpath = "/home/vcm/cloud/rootdir/file2"
+
+bb_getattr(path="/", statbuf=0x54699e70)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  46144108
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  6
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545b0
+    st_mtime = 0x 661545b6
+    st_ctime = 0x 661545b6
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_opendir(path="/", fi=0x53e98e90)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+    opendir returned 0x0x7fd744107c60
+    fi:
+    flags = 0x 00018800
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd744107c60
+    lock_owner = 0x 0000000000000000
+
+bb_readdir(path="/", buf=0x440f0170, filler=0x571a5ac0, offset=0, fi=0x54699e90)
+    readdir returned 0x0x7fd744107c90
+calling filler with name .
+calling filler with name ..
+[LOG]: /file1
+[LOG]: /file2
+cloud calling filler with name file1, relative_path /file1
+cloud calling filler with name file2, relative_path /file2
+[Cloud] /file2 
+[Cloud] /file1 
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd744107c60
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd744107c60
+    lock_owner = 0x 0000000000000000
+
+bb_releasedir(path="/", fi=0x54699e90)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd744107c60
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd744107c60
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/file1", statbuf=0x54699ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file1", fpath = "/home/vcm/cloud/rootdir/file1"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file1
+[Debug] dddd path=/file1
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545b1
+    st_mtime = 0x 661545b1
+    st_ctime = 0x 661545b1
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_getattr(path="/file2", statbuf=0x54699e70)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file2", fpath = "/home/vcm/cloud/rootdir/file2"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file2
+[Debug] dddd path=/file2
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545b7
+    st_mtime = 0x 661545b7
+    st_ctime = 0x 661545b7
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_opendir(path="/", fi=0x54699e90)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+    opendir returned 0x0x7fd74c00fa10
+    fi:
+    flags = 0x 00018800
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/", statbuf=0x53e98e70)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  46144108
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  6
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545b6
+    st_mtime = 0x 661545b6
+    st_ctime = 0x 661545b6
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_readdir(path="/", buf=0x4c018280, filler=0x571a5ac0, offset=0, fi=0x54699e90)
+    readdir returned 0x0x7fd74c00fa40
+calling filler with name .
+calling filler with name ..
+[LOG]: /file1
+[LOG]: /file2
+cloud calling filler with name file1, relative_path /file1
+cloud calling filler with name file2, relative_path /file2
+[Cloud] /file2 
+[Cloud] /file1 
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd74c00fa10
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_releasedir(path="/", fi=0x54699e90)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd74c00fa10
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/file3", statbuf=0x53e98ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file3", fpath = "/home/vcm/cloud/rootdir/file3"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file3
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 0
+    st_nlink =  0
+    st_uid =  0
+    st_gid =  0
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  0
+    st_blocks =  0
+    st_atime = 0x 00000000
+    st_mtime = 0x 00000000
+    st_ctime = 0x 00000000
+[Debug] /file2, -2
+[Debug] /file1, -2
+
+bb_mknod(path="/file3", mode=0100664, dev=0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file3", fpath = "/home/vcm/cloud/rootdir/file3"
+    open returned 11
+    close returned 0
+
+bb_getattr(path="/file3", statbuf=0x53e98ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file3", fpath = "/home/vcm/cloud/rootdir/file3"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  46144109
+    st_mode = 0 100664
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  0
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545bb
+    st_mtime = 0x 661545bb
+    st_ctime = 0x 661545bb
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_open(path"/file3", fi=0x54699f50)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file3", fpath = "/home/vcm/cloud/rootdir/file3"
+[Log] ffpath /home/vcm/cloud/rootdir/file3, path /file3
+    open returned 11
+    fi:
+    flags = 0x 00008001
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x 0000000000000000
+
+bb_flush(path="/file3", fi=0x53e98f50)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 0000000b
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x afdb737bae09f312
+
+bb_write(path="/file3", buf=0x53678060, size=3, offset=0, fi=0x53e98fb0)
+    fi:
+    flags = 0x 00008001
+    fh_old = 0x 0000000b
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x 0000000000000000
+    pwrite returned 3
+
+bb_flush(path="/file3", fi=0x54699f50)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 0000000b
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x afdb737bae09f312
+
+bb_release(path="/file3", fi=0x53e98f50)
+    fi:
+    flags = 0x 00008001
+    fh_old = 0x 0000000b
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x 0000000000000000
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file3", fpath = "/home/vcm/cloud/rootdir/file3"
+[Release size] 3
+[LOG]: Add file at '/file3' successfully.
+bb_unlink(path="/file3")
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file3", fpath = "/home/vcm/cloud/rootdir/file3"
+
+bb_opendir(path="/", fi=0x54699e90)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+    opendir returned 0x0x7fd74c00fa10
+    fi:
+    flags = 0x 00018800
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/", statbuf=0x53e98e70)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  46144108
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  6
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545b6
+    st_mtime = 0x 661545bb
+    st_ctime = 0x 661545bb
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_readdir(path="/", buf=0x4c01b390, filler=0x571a5ac0, offset=0, fi=0x54699e90)
+    readdir returned 0x0x7fd74c00fa40
+calling filler with name .
+calling filler with name ..
+[LOG]: /file1
+[LOG]: /file2
+[LOG]: /file3
+cloud calling filler with name file1, relative_path /file1
+cloud calling filler with name file2, relative_path /file2
+cloud calling filler with name file3, relative_path /file3
+[Cloud] /file3 
+[Cloud] /file2 
+[Cloud] /file1 
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd74c00fa10
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/file1", statbuf=0x53e98ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file1", fpath = "/home/vcm/cloud/rootdir/file1"
+[Debug0] /file3
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file1
+[Debug] dddd path=/file1
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545b1
+    st_mtime = 0x 661545b1
+    st_ctime = 0x 661545b1
+[Debug] /file3, 0
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_getattr(path="/file2", statbuf=0x54699ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file2", fpath = "/home/vcm/cloud/rootdir/file2"
+[Debug0] /file3
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file2
+[Debug] dddd path=/file2
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545b7
+    st_mtime = 0x 661545b7
+    st_ctime = 0x 661545b7
+[Debug] /file3, 0
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_getattr(path="/file3", statbuf=0x53e98ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file3", fpath = "/home/vcm/cloud/rootdir/file3"
+[Debug0] /file3
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file3
+[Debug] dddd path=/file3
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545bc
+    st_mtime = 0x 661545bc
+    st_ctime = 0x 661545bc
+[Debug] /file3, 0
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_releasedir(path="/", fi=0x53e98e90)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd74c00fa10
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/file3", statbuf=0x54699ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file3", fpath = "/home/vcm/cloud/rootdir/file3"
+[Debug0] /file3
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file3
+[Debug] dddd path=/file3
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545bc
+    st_mtime = 0x 661545bc
+    st_ctime = 0x 661545bc
+[Debug] /file3, 0
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_open(path"/file3", fi=0x53e98f50)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file3", fpath = "/home/vcm/cloud/rootdir/file3"
+[LOG]: startByte: 0, endByte: 1
+[LOG]: startByte: 2, endByte: 2
+[LOG]: size: 2
+[LOG]: size: 1
+[LOG]: File at '/file3' deleteed successfully
+[Log] ffpath /home/vcm/cloud/rootdir/file3, path /file3
+    open returned 11
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x 0000000000000000
+
+bb_read(path="/file3", buf=0x4c04d0a0, size=4096, offset=0, fi=0x54699f50)
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 0000000b
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x 0000000000000000
+    pread returned 3
+
+bb_flush(path="/file3", fi=0x53e98f50)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 0000000b
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x 33f346e5a854d715
+
+bb_release(path="/file3", fi=0x54699f50)
+    fi:
+    flags = 0x 00008000
+    fh_old = 0x 0000000b
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 000000000000000b
+    lock_owner = 0x 0000000000000000
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file3", fpath = "/home/vcm/cloud/rootdir/file3"
+[Release size] 3
+[LOG]: Add file at '/file3' successfully.
+bb_unlink(path="/file3")
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file3", fpath = "/home/vcm/cloud/rootdir/file3"
+
+bb_getattr(path="/", statbuf=0x53e98e70)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+[Debug0] /file3
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  46144108
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  6
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545bc
+    st_mtime = 0x 661545bf
+    st_ctime = 0x 661545bf
+[Debug] /file3, 0
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_opendir(path="/", fi=0x54699e90)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+    opendir returned 0x0x7fd74c00fa10
+    fi:
+    flags = 0x 00018800
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_readdir(path="/", buf=0x4c049560, filler=0x571a5ac0, offset=0, fi=0x53e98e90)
+    readdir returned 0x0x7fd74c00fa40
+calling filler with name .
+calling filler with name ..
+[LOG]: /file1
+[LOG]: /file2
+[LOG]: /file3
+cloud calling filler with name file1, relative_path /file1
+cloud calling filler with name file2, relative_path /file2
+cloud calling filler with name file3, relative_path /file3
+[Cloud] /file3 
+[Cloud] /file2 
+[Cloud] /file1 
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd74c00fa10
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_releasedir(path="/", fi=0x53e98e90)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd74c00fa10
+    writepage =  0
+    direct_io =  0
+
+bb_getattr(path="/file1", statbuf=0x54699ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file1", fpath = "/home/vcm/cloud/rootdir/file1"
+[Debug0] /file3
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file1
+
+bb_getattr(path="/file2", statbuf=0x53653ea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file2", fpath = "/home/vcm/cloud/rootdir/file2"
+[Debug] dddd path=/file1
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545b1
+    st_mtime = 0x 661545b1
+    st_ctime = 0x 661545b1
+[Debug] /file3, 0
+[Debug] /file2, 0
+[Debug] /file1, 0
+[Debug0] /file3
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file2
+[Debug] dddd path=/file2
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545b7
+    st_mtime = 0x 661545b7
+    st_ctime = 0x 661545b7
+[Debug] /file3, 0
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_getattr(path="/file3", statbuf=0x54e9ae70)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file3", fpath = "/home/vcm/cloud/rootdir/file3"
+[Debug0] /file3
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file3
+[Debug] dddd path=/file3
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545c0
+    st_mtime = 0x 661545c0
+    st_ctime = 0x 661545c0
+[Debug] /file3, 0
+[Debug] /file2, 0
+[Debug] /file1, 0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_opendir(path="/", fi=0x54699e90)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+    opendir returned 0x0x7fd74c00fa10
+    fi:
+    flags = 0x 00018800
+    fh_old = 0x 00000000
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/", statbuf=0x53653e70)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+[Debug0] /file3
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  46144108
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  6
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545bf
+    st_mtime = 0x 661545bf
+    st_ctime = 0x 661545bf
+[Debug] /file3, 0
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_readdir(path="/", buf=0x4c034ea0, filler=0x571a5ac0, offset=0, fi=0x52e52e90)
+    readdir returned 0x0x7fd74c00fa40
+calling filler with name .
+calling filler with name ..
+[LOG]: /file1
+[LOG]: /file2
+[LOG]: /file3
+cloud calling filler with name file1, relative_path /file1
+cloud calling filler with name file2, relative_path /file2
+cloud calling filler with name file3, relative_path /file3
+[Cloud] /file3 
+[Cloud] /file2 
+[Cloud] /file1 
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd74c00fa10
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/file3", statbuf=0x54e9aea0)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/file3", fpath = "/home/vcm/cloud/rootdir/file3"
+[Debug0] /file3
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned -1
+    ERROR lstat: No such file or directory
+[Debug] ddddd path=/file3
+[Debug] dddd path=/file3
+    si:
+    st_dev =  0
+    st_ino =  0
+    st_mode = 0 100777
+    st_nlink =  1
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  3
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545c0
+    st_mtime = 0x 661545c0
+    st_ctime = 0x 661545c0
+[Debug] /file3, 0
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_releasedir(path="/", fi=0x54699e90)
+    fi:
+    flags = 0x 00000000
+    fh_old = 0x 7fd74c00fa10
+    writepage =  0
+    direct_io =  0
+    keep_cache =  0
+    fh = 0x 00007fd74c00fa10
+    lock_owner = 0x 0000000000000000
+
+bb_getattr(path="/", statbuf=0x53653e70)
+    bb_fullpath:  rootdir = "/home/vcm/cloud/rootdir", path = "/", fpath = "/home/vcm/cloud/rootdir/"
+[Debug0] /file3
+[Debug0] /file2
+[Debug0] /file1
+    lstat returned 0
+    si:
+    st_dev =  64769
+    st_ino =  46144108
+    st_mode = 0 40775
+    st_nlink =  2
+    st_uid =  990
+    st_gid =  1001
+    st_rdev =  0
+    st_size =  6
+    st_blksize =  4096
+    st_blocks =  0
+    st_atime = 0x 661545bf
+    st_mtime = 0x 661545bf
+    st_ctime = 0x 661545bf
+[Debug] /file3, 0
+[Debug] /file2, 0
+[Debug] /file1, 0
+
+bb_destroy(userdata=0x8ce17940)

@@ -6,11 +6,15 @@ prefix="${mountpath}file"
 
 content_size=1024  # 1KB
 
-file_count=100
+file_count=10
 
 echo_files=()
 
 total_time=0
+
+# decide the percent of read and write task, e.g. read_threshold=2 means 20% read task, 80% write task
+# range should be [1, 9]
+read_threshold=5
 
 for ((i=1; i<=file_count; i++)); do
 
@@ -18,11 +22,11 @@ for ((i=1; i<=file_count; i++)); do
 
     start_time=$(date +%s%3N)
 
-    method=$(($RANDOM % 2))
+    method=$(($RANDOM % 10))
     
     filename="${prefix}${i}.txt"
 
-    if [ $method -eq 0 ]; then
+    if [ $method -lt $read_threshold ]; then
         if [[ ${#echo_files[@]} != 0 ]]; then
             random_index=$(($RANDOM % ${#echo_files[@]}))
             random_file="${echo_files[$random_index]}"
@@ -39,10 +43,10 @@ for ((i=1; i<=file_count; i++)); do
 
     total_time=$((total_time + end_time - start_time))
 
-    # sleep 0.5
 done
 
-echo "Total execution time: $total_time milliseconds" > ~/test.txt
+echo "Total execution time: $total_time milliseconds"
+echo "Bitrate: $(echo "scale=2; $((file_count * content_size)) / ($total_time / 1000)" | bc) B/s"
 
 ls $mountpath > /dev/null
 rm $mountpath*

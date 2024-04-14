@@ -24,7 +24,6 @@ make
 ./scheduler ../rootdir ../mount 10
 ```
 
-# Revise Suggestion
 
 1. number of file -> total size of file
 
@@ -41,25 +40,3 @@ maybe just give a warning
 
 7. lfu freq problem further access
 non-cpu cache algorithm
-
-# Test Requirement
-
-## Performance Test
-
-Four test subject: bbfs(FUSE), version1 scheduler, version2 scheduler, cloud(basic cloud file system based on FUSE & Amazon S3)
-
-If the number of file is too high, the cost is **EXPENSIVE**! So just test 100 files.
-
-In each case, you should do three tests: rtest(all read), wtest(all write), rwtest(x% read and y% write, you can decide it)
-
-1. 100 files, 1KB file size, change the cache size: 4K, 8K, 16K, 32K
-
-2. 100 files, 16K cache size, change the file size: 256B, 512B, 1K, 2K
-
-## Overhead Test
-
-Get the overhead of our program.
-
-version2 scheduler: single thread overhead and multiple threads overhead
-
-It should be very high, and this should be considered as a drawback of our program
