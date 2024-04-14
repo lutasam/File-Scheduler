@@ -6,7 +6,7 @@ for students to start their own FUSE projects.
 
 It was prepared by Tyler Bletsch at Duke University, 2020-07-30. It is based on the original bbfs dated 2018-02-04.
 
-Before running this program, make sure you create the mountdir.
+Before running this program, make sure you create the mount & rootdir.
 
 # Step 1 Install Amazon C++ SDK and other environment
 compile the source code and install it. Follow this link: https://docs.aws.amazon.com/sdk-for-cpp/v1/developer-guide/setup-linux.html
@@ -21,7 +21,7 @@ put auth file into ~/.aws. Follow this link: https://docs.aws.amazon.com/sdkref/
 cd scheduler_exec
 cmake
 make
-./scheduler ../rootdir ../mount 10
+./scheduler ../rootdir ../mount 10b
 ```
 
 # Revise Suggestion
