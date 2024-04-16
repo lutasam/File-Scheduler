@@ -20,7 +20,7 @@ for ((i=1; i<=file_count; i++)); do
 
     ls $mountpath > /dev/null
 
-    start_time=$(($(date +%s%N)/1000000))
+    start_time=$(date +%s%3N)
 
     method=$(($RANDOM % 10))
     
@@ -39,7 +39,7 @@ for ((i=1; i<=file_count; i++)); do
         echo_files+=("$filename")
     fi
 
-    end_time=$(($(date +%s%N)/1000000))
+    end_time=$(date +%s%3N)
     total_time=$((total_time + end_time - start_time))
 
 done
