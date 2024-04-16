@@ -21,7 +21,7 @@ using namespace std;
 const string MOUNT_DIR = "/home/vcm/ECE566/project/File-Scheduler/mount";
 const string BUCKET_NAME = "ece566cloud";
 // const size_t NUM_THREAD = 2;
-const long long BLOCK_SIZE = 2;
+const long long BLOCK_SIZE = 1024 * 2;
 
 enum FileType
 {

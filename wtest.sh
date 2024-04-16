@@ -32,3 +32,4 @@ echo "Bitrate: $(echo "scale=2; $((file_count * content_size)) / ($total_time / 
 
 ls $mountpath > /dev/null
 rm $mountpath*
+python3 ../time_used.py

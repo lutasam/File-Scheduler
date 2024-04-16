@@ -34,6 +34,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <time.h>
 
 #ifdef HAVE_SYS_XATTR_H
 #include <sys/xattr.h>
@@ -410,7 +411,7 @@ int bb_open(const char *path, struct fuse_file_info *fi)
     // {
     //     log_msg("[Cloud open] %s, %s\n", file.first.c_str(), path);
     // }
-    auto start = std::chrono::high_resolution_clock::now();
+    clock_t start = clock();
     if (cloudFiles.find(path) != cloudFiles.end())
     {
         // size = client->DownloadFile(filename, filepath, fpath);
@@ -421,9 +422,9 @@ int bb_open(const char *path, struct fuse_file_info *fi)
         }
         client->DeleteFile(filename, filepath);
     }
-    auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    log_msg("[EXEC_TIME]: %d\n", duration.count());
+    clock_t end = clock();
+    double duration = (double)(end - start) / CLOCKS_PER_SEC * 1000.0;
+    log_msg("[EXEC_TIME]: %lf\n", duration);
 
     log_msg("[Log] ffpath %s, path %s\n", fpath, path);
     // if (size < 0)
@@ -613,7 +614,6 @@ int bb_release(const char *path, struct fuse_file_info *fi)
     }
     // if (createdFiles.find(path) != createdFiles.end())
     // {
-    auto start = std::chrono::high_resolution_clock::now();
     char fpath[PATH_MAX];
     bb_fullpath(fpath, path);
     auto filename = getFileName(path);
@@ -642,6 +642,7 @@ int bb_release(const char *path, struct fuse_file_info *fi)
 
     // client->UploadAllFile(files);
 
+    clock_t start = clock();
     for (auto file : files)
     {
         auto filename = getFileName(file.relativePath);
@@ -651,9 +652,9 @@ int bb_release(const char *path, struct fuse_file_info *fi)
         log_msg("[LOG] release upload filename %s, path %s\n", filename.c_str(), filepath.c_str());
         unlink(file.path.c_str());
     }
-    auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    log_msg("[EXEC_TIME]: %d\n", duration.count());
+    clock_t end = clock();
+    double duration = (double)(end - start) / CLOCKS_PER_SEC * 1000.0;
+    log_msg("[EXEC_TIME]: %lf\n", duration);
     // }
 
     // if (globalCache->GetSize() > globalCache->GetCapacity()) {
