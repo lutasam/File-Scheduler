@@ -410,6 +410,7 @@ int bb_open(const char *path, struct fuse_file_info *fi)
     // {
     //     log_msg("[Cloud open] %s, %s\n", file.first.c_str(), path);
     // }
+    auto start = std::chrono::high_resolution_clock::now();
     if (cloudFiles.find(path) != cloudFiles.end())
     {
         // size = client->DownloadFile(filename, filepath, fpath);
@@ -420,6 +421,9 @@ int bb_open(const char *path, struct fuse_file_info *fi)
         }
         client->DeleteFile(filename, filepath);
     }
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    log_msg("[EXEC_TIME]: %d\n", duration.count());
 
     log_msg("[Log] ffpath %s, path %s\n", fpath, path);
     // if (size < 0)
@@ -609,6 +613,7 @@ int bb_release(const char *path, struct fuse_file_info *fi)
     }
     // if (createdFiles.find(path) != createdFiles.end())
     // {
+    auto start = std::chrono::high_resolution_clock::now();
     char fpath[PATH_MAX];
     bb_fullpath(fpath, path);
     auto filename = getFileName(path);
@@ -629,9 +634,9 @@ int bb_release(const char *path, struct fuse_file_info *fi)
     // FileMeta fileMeta = createdFiles[path];
     // fileMeta.size = size;
     auto files = globalCache->AddFile(fileMeta);
-    globalCache->printCache();
-    globalCache->fifo->printCache();
-    globalCache->lru->printCache();
+    // globalCache->printCache();
+    // globalCache->fifo->printCache();
+    // globalCache->lru->printCache();
 
     // createdFiles.erase(path);
 
@@ -646,6 +651,9 @@ int bb_release(const char *path, struct fuse_file_info *fi)
         log_msg("[LOG] release upload filename %s, path %s\n", filename.c_str(), filepath.c_str());
         unlink(file.path.c_str());
     }
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    log_msg("[EXEC_TIME]: %d\n", duration.count());
     // }
 
     // if (globalCache->GetSize() > globalCache->GetCapacity()) {
