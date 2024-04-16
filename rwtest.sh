@@ -16,11 +16,11 @@ total_time=0
 # range should be [1, 9]
 read_threshold=5
 
-start_time=$(($(date +%s%N)/1000000))
-
 for ((i=1; i<=file_count; i++)); do
 
     ls $mountpath > /dev/null
+
+    start_time=$(($(date +%s%N)/1000000))
 
     method=$(($RANDOM % 10))
     
@@ -39,11 +39,10 @@ for ((i=1; i<=file_count; i++)); do
         echo_files+=("$filename")
     fi
 
+    end_time=$(($(date +%s%N)/1000000))
+    total_time=$((total_time + end_time - start_time))
+
 done
-
-end_time=$(($(date +%s%N)/1000000))
-
-total_time=$((end_time - start_time))
 
 echo "Total execution time: $total_time ms"
 echo "Bitrate: $(echo "scale=2; $((file_count * content_size)) / ($total_time / 1000)" | bc) B/s"
